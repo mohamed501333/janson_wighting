@@ -35,7 +35,7 @@ class ImcomingValueporvider extends ChangeNotifier {
     for (var i = 0; i < 60; i++) {
       await Future.delayed(const Duration(milliseconds: 100));
       const Duration(seconds: 2);
-      port.write(Uint8List.fromList([...1.toString().codeUnits, 10]));
+      port.write(Uint8List.fromList([...i.toString().codeUnits, 10]));
       print('Writen Bytes: $i');
     }
   }

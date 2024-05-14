@@ -1,5 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:janson_wighting/app.dart';
 import 'package:provider/provider.dart';
 
 import 'providers.dart';
@@ -28,7 +32,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       title: 'Flutter Demo',
       home: Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: Color.fromARGB(255, 10, 102, 206),
         body: Home(),
       ),
     );
@@ -40,7 +44,7 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var port = context.read<ImcomingValueporvider>().port;
+    // var port = context.read<ImcomingValueporvider>().port;
 
     return Center(
       child: Column(
@@ -66,26 +70,56 @@ class Home extends StatelessWidget {
               ],
             ),
           ),
-          _informationField('Description', port.description),
-          // _informationField('MAC Address', port.config.bits.toString()),
-          _informationField('dtr', port.config.dtr.toString()),
+          // _informationField('Description', port.description),
+          // // _informationField('MAC Address', port.config.bits.toString()),
+          // _informationField('dtr', port.config.dtr.toString()),
 
-          SizedBox(
-            height: 300,
-            child: Column(
+          Container(
+            padding: const EdgeInsets.all(8),
+            margin: const EdgeInsets.all(8),
+            decoration: const BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.all(Radius.circular(9))),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Consumer<ImcomingValueporvider>(
                   builder: (context, myType, child) {
                     return Text(myType.nowValu,
                         style: const TextStyle(
-                          fontSize: 30,
-                          color: Color(0xfffbf107),
+                          fontSize: 60,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 255, 0, 0),
                         ));
                   },
-                )
-              ],
+                ),
+                Column(
+                  children: [
+                    Text(
+                      DateTime.now().formatt_yMd(),
+                      style: const TextStyle(
+                          color: Color.fromARGB(255, 231, 216, 216),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24),
+                    ),
+                    StreamBuilder(
+                      stream: Stream<int>.periodic(
+                          const Duration(seconds: 1), (count) => count),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        return Text(
+                          DateTime.now().formatt_hms(),
+                          style: const TextStyle(
+                              color: Color.fromARGB(255, 88, 185, 7),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ].reversed.toList(),
             ),
-          )
+          ),
         ],
       ),
     );
