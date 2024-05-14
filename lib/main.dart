@@ -1,8 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
-import 'package:digital_lcd_number/digital_lcd_number.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_libserialport/flutter_libserialport.dart';
 import 'package:provider/provider.dart';
 
 import 'providers.dart';
@@ -13,7 +10,8 @@ void main() {
       ChangeNotifierProvider(
         create: (context) => ImcomingValueporvider()
           ..port
-          ..initport(),
+          ..initport()
+          ..stream(),
       ),
     ],
     child: MyApp(),
@@ -43,77 +41,48 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var port = context.read<ImcomingValueporvider>().port;
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: <Widget>[
+                const Expanded(
+                  child: TextField(
+                    style: TextStyle(color: Colors.white70),
+                    decoration: InputDecoration(
+                      hintText: "Enter your message",
+                    ),
+                  ),
+                ),
+                IconButton(
+                    icon: const Icon(Icons.send),
+                    onPressed: () {
+                      context.read<ImcomingValueporvider>().sendMessage();
+                    }),
+              ],
+            ),
+          ),
           _informationField('Description', port.description),
           // _informationField('MAC Address', port.config.bits.toString()),
           _informationField('dtr', port.config.dtr.toString()),
-                                        const SizedBox(
-                                          width: 100,
-                                          height: 100,
-                                          child: DigitalLcdNumber(number:1,color: Colors.red,)),
 
           SizedBox(
             height: 300,
             child: Column(
               children: <Widget>[
-                
-                StreamBuilder(
-                    stream: SerialPortReader(port,timeout: 10000).stream,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        var v2 ="0";
-                         v2 = String.fromCharCodes(
-                            snapshot.data as Iterable<int>).replaceAll( RegExp(r'[^0-9]'),'');
-                        var v = utf8.decode(snapshot.data as List<int>);
-                        context.read<ImcomingValueporvider>().nowValu = v.replaceAll( RegExp(r'[^0-9]'),'');
-                        return Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(v,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    color: Color(0xfffbf107),
-                                  )),
-                              const SizedBox(
-                                width: 30,
-                              ),
-                              Text(v2,
-                                  style: const TextStyle(
-                                    fontSize: 30,
-                                    color: Color(0xfffbf107),
-                                  )),
-                            ],
-                          ),
-                        );
-                      }
-                      return const Text("--");
-                    }),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: <Widget>[
-                      const Expanded(
-                        child: TextField(
-                          style: TextStyle(color: Colors.white70),
-                          decoration: InputDecoration(
-                            hintText: "Enter your message",
-                          ),
-                        ),
-                      ),
-                      IconButton(
-                          icon: const Icon(Icons.send),
-                          onPressed: () {
-                            print(
-                                context.read<ImcomingValueporvider>().nowValu);
-                            context.read<ImcomingValueporvider>().sendMessage();
-                          }),
-                    ],
-                  ),
-                ),
+                Consumer<ImcomingValueporvider>(
+                  builder: (context, myType, child) {
+                    return Text(myType.nowValu,
+                        style: const TextStyle(
+                          fontSize: 30,
+                          color: Color(0xfffbf107),
+                        ));
+                  },
+                )
               ],
             ),
           )
