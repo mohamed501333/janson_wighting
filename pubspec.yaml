@@ -29,6 +29,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   cupertino_icons: ^1.0.6
+  digital_lcd_number: ^0.1.2
   flutter:
     sdk: flutter
   flutter_libserialport: ^0.4.0
