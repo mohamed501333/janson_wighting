@@ -9,14 +9,6 @@ import 'package:flutter_libserialport/flutter_libserialport.dart';
 
 class ImcomingValueporvider extends ChangeNotifier {
   var port = SerialPort('COM3');
-  var nowValu = "0";
-
-  addValue(String val) {
-    if (val != nowValu) {
-      nowValu = val;
-      notifyListeners();
-    }
-  }
 
   initport() {
     port.config.baudRate = 9600;
@@ -31,17 +23,30 @@ class ImcomingValueporvider extends ChangeNotifier {
     port.openReadWrite();
   }
 
+  var x = 0;
   Future<void> sendMessage() async {
     for (var i = 0; i < 500; i++) {
-      // await Future.delayed(const Duration(milliseconds: 5));
-      port.write(Uint8List.fromList([...i.toString().codeUnits, 10]));
+      await Future.delayed(const Duration(milliseconds: 5));
+      if (i == 89) {
+        x = i;
+      }
+      port.write(Uint8List.fromList([...x.toString().codeUnits, 10]));
       print('Writen Bytes: $i');
+    }
+  }
+
+  var nowValu = "0";
+
+  addValue(String val) {
+    if (val != nowValu) {
+      nowValu = val;
+      notifyListeners();
     }
   }
 
   Uint8List? event;
   stream() {
-    SerialPortReader(port).stream.distinct().listen((e) async {
+    SerialPortReader(port).stream.distinct().listen((e) {
       print('Writen Bytes: $e');
       event = e;
     });

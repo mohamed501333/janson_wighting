@@ -1,12 +1,11 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: public_member_api_docs, sort_constructors_first, camel_case_types
 import 'dart:async';
 
 import 'package:advanced_search/advanced_search.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:janson_wighting/app.dart';
+import 'package:janson_wighting/valuesController.dart';
 import 'package:provider/provider.dart';
 
 import 'providers.dart';
@@ -20,6 +19,9 @@ void main() {
           ..initport()
           ..stream(),
       ),
+      ChangeNotifierProvider(
+        create: (context) => valuesControllers(),
+      ),
     ],
     child: MyApp(),
   ));
@@ -32,10 +34,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Timer.periodic(const Duration(milliseconds: 200), (timer) {
-    //   print("periodic");
-    //   context.read<ImcomingValueporvider>().assinEventTonowValue();
-    // });
+    Timer.periodic(const Duration(milliseconds: 200), (timer) {
+      context.read<ImcomingValueporvider>().assinEventTonowValue();
+    });
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
@@ -130,7 +131,10 @@ class weightInfo extends StatelessWidget {
               children: [
                 const Gap(8),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    var val = context.read<ImcomingValueporvider>().nowValu;
+                    context.read<valuesControllers>().assignValue(val);
+                  },
                   child: Container(
                     padding: const EdgeInsets.all(6),
                     decoration: BoxDecoration(
@@ -153,11 +157,15 @@ class weightInfo extends StatelessWidget {
                   ),
                 ),
                 const Gap(18),
-                const Text("0",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 40,
-                        fontWeight: FontWeight.w500)),
+                Consumer<valuesControllers>(
+                  builder: (context, myType, child) {
+                    return Text("${myType.firstWeight}",
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 40,
+                            fontWeight: FontWeight.w500));
+                  },
+                ),
                 const Gap(22),
                 Padding(
                   padding: const EdgeInsets.only(left: 5),
@@ -182,7 +190,6 @@ class weightInfo extends StatelessWidget {
                 ),
               ].reversed.toList(),
             ),
-
             //second w
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -241,6 +248,30 @@ class weightInfo extends StatelessWidget {
                 ),
               ].reversed.toList(),
             ),
+            const Gap(21),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(" 0  :  الوزن الصافى",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 22,
+                        fontWeight: FontWeight.w500)),
+                Gap(8),
+              ],
+            ),
+            const Gap(33),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(" 0  :  مسلسل التذكره",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal)),
+                Gap(8),
+              ],
+            )
           ],
         ),
       ),
