@@ -13,3 +13,10 @@ extension Dsd on DateTime {
     return formateeddate;
   }
 }
+
+
+extension FD on String{
+  int to_int(){
+    return int.parse(this);
+   }
+}

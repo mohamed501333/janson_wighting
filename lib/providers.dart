@@ -6,13 +6,14 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_libserialport/flutter_libserialport.dart';
+import 'package:janson_wighting/app.dart';
 
 class ImcomingValueporvider extends ChangeNotifier {
-  var port = SerialPort('COM3');
+  var port = SerialPort('COM1');
   var nowValu = "0";
 
   addValue(String val) {
-    if (val != nowValu) {
+    if ( val!=nowValu) {
       nowValu = val;
       notifyListeners();
     }
@@ -41,8 +42,12 @@ class ImcomingValueporvider extends ChangeNotifier {
   }
 
   stream() {
+    Uint8List? e;
+
     SerialPortReader(port).stream.distinct().listen((event) {
-      addValue(utf8.decode(event).replaceAll(RegExp(r'[^0-9]'), ''));
+      e != event
+          ? addValue(utf8.decode(event).replaceAll(RegExp(r'[^0-9]'), ''))
+          : DoNothingAction();
     });
   }
 
