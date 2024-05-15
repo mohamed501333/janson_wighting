@@ -6,14 +6,13 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_libserialport/flutter_libserialport.dart';
-import 'package:janson_wighting/app.dart';
 
 class ImcomingValueporvider extends ChangeNotifier {
-  var port = SerialPort('COM1');
+  var port = SerialPort('COM3');
   var nowValu = "0";
 
   addValue(String val) {
-    if ( val!=nowValu) {
+    if (val != nowValu) {
       nowValu = val;
       notifyListeners();
     }
@@ -33,22 +32,25 @@ class ImcomingValueporvider extends ChangeNotifier {
   }
 
   Future<void> sendMessage() async {
-    for (var i = 0; i < 60; i++) {
-      await Future.delayed(const Duration(milliseconds: 100));
-      const Duration(seconds: 2);
+    for (var i = 0; i < 500; i++) {
+      // await Future.delayed(const Duration(milliseconds: 5));
       port.write(Uint8List.fromList([...i.toString().codeUnits, 10]));
       print('Writen Bytes: $i');
     }
   }
 
+  Uint8List? event;
   stream() {
-    Uint8List? e;
-
-    SerialPortReader(port).stream.distinct().listen((event) {
-      e != event
-          ? addValue(utf8.decode(event).replaceAll(RegExp(r'[^0-9]'), ''))
-          : DoNothingAction();
+    SerialPortReader(port).stream.distinct().listen((e) async {
+      print('Writen Bytes: $e');
+      event = e;
     });
+  }
+
+  assinEventTonowValue() {
+    if (event != null) {
+      addValue(utf8.decode(event!).replaceAll(RegExp(r'[^0-9]'), ''));
+    }
   }
 
   Refrech_UI() {
