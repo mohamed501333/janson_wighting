@@ -23,19 +23,22 @@ void main() {
         create: (context) => valuesControllers(),
       ),
     ],
-    child: MyApp(),
+    child: const MyApp(),
   ));
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({
+  const MyApp({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Timer.periodic(const Duration(milliseconds: 200), (timer) {
-      context.read<ImcomingValueporvider>().assinEventTonowValue();
+    Timer.periodic(const Duration(milliseconds: 500), (timer) {
+                   context.read<ImcomingValueporvider>().Refrech_UI();
+
+      
+;
     });
     return MaterialApp(
       debugShowCheckedModeBanner: false,
