@@ -34,11 +34,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Timer.periodic(const Duration(milliseconds: 500), (timer) {
-                   context.read<ImcomingValueporvider>().Refrech_UI();
+    Timer.periodic(const Duration(milliseconds: 100), (timer) {
+      context.read<ImcomingValueporvider>().Refrech_UI();
 
-      
-;
+      ;
     });
     return MaterialApp(
       debugShowCheckedModeBanner: false,
