@@ -1,11 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, camel_case_types
 import 'dart:async';
 
-import 'package:advanced_search/advanced_search.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:janson_wighting/app.dart';
 import 'package:janson_wighting/valuesController.dart';
+import 'package:janson_wighting/widgets/%D8%A8%D9%8A%D8%A7%D9%86%D8%A7%D8%AA%20%D8%A7%D9%84%D9%88%D8%B2%D9%86%20%D9%88%20%D8%A7%D9%84%D8%AA%D8%B2%D9%83%D8%B1%D9%87.dart';
 import 'package:provider/provider.dart';
 
 import 'providers.dart';
@@ -42,593 +42,100 @@ class MyApp extends StatelessWidget {
           backgroundColor: const Color.fromARGB(255, 9, 116, 238),
         ),
         backgroundColor: const Color.fromARGB(255, 10, 102, 206),
-        body: const Home(),
+        body: Home(),
       ),
     );
   }
 }
 
 class Home extends StatelessWidget {
-  const Home({super.key});
+  Home({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const SingleChildScrollView(
+    return  SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           //black item
-          WhightInput(),
+          const WhightInput(),
 
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              weightInfo(),
-              SizedBox(
+              //بيانات  الوزن
+              const weightInfo(),
+              const SizedBox(
                 width: 9,
               ),
+              //بيانات التزكره
               wightTecket(),
-              SizedBox(
+              const SizedBox(
                 width: 9,
               )
             ],
           ),
-
+          const Gap(9),
+          const buttoms(),
           //test buttom
-          Test(),
+          const Test(),
+          
         ],
       ),
     );
   }
 }
 
-class weightInfo extends StatelessWidget {
-  const weightInfo({
+class buttoms extends StatelessWidget {
+  const buttoms({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(),
-        color: const Color.fromARGB(255, 10, 102, 206),
-        borderRadius: BorderRadius.circular(30),
-        boxShadow: [
-          BoxShadow(
-            color: const Color.fromARGB(255, 129, 136, 202)
-                .withOpacity(0.5), //color of shadow
-            spreadRadius: 1, //spread radius
-            blurRadius: 1, // blur radius
-            offset: const Offset(0, 1), // changes position of shadow
-          ),
-        ],
-      ),
-      child: SizedBox(
-        width: 300,
-        height: 410,
-        child: Column(
-          children: [
-            Container(
-              decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
-                  color: Color.fromARGB(255, 3, 202, 93)),
-              child: const Padding(
-                padding: EdgeInsets.all(4.0),
-                child: Text(
-                  "بيانات  الوزن",
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
-                ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        const Gap(9),
+        ElevatedButton(
+            style: const ButtonStyle(
+                backgroundColor:
+                    MaterialStatePropertyAll(Color.fromARGB(255, 203, 218, 7))),
+            onPressed: () {},
+            child: const Padding(
+              padding: EdgeInsets.all(6.0),
+              child: Text(
+                'وزنة جديدة',
+                style: TextStyle(fontSize: 18),
               ),
-            ),
-            const Gap(33),
-            //firest w
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                const Gap(8),
-                GestureDetector(
-                  onTap: () {
-                    var val = context.read<ImcomingValueporvider>().nowValu;
-                    context.read<valuesControllers>().assignValue(val);
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Colors.black,
-                              offset: Offset(1, 1),
-                              blurRadius: 2.1)
-                        ],
-                        border: Border.all(),
-                        color: const Color.fromARGB(255, 40, 83, 201),
-                        borderRadius: BorderRadius.circular(6)),
-                    child: const Text(
-                      "الوزن الاول",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                ),
-                const Gap(18),
-                Consumer<valuesControllers>(
-                  builder: (context, myType, child) {
-                    return Text("${myType.firstWeight}",
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 40,
-                            fontWeight: FontWeight.w500));
-                  },
-                ),
-                const Gap(22),
-                Padding(
-                  padding: const EdgeInsets.only(left: 5),
-                  child: Column(
-                    children: [
-                      Text(
-                        DateTime.now().formatt_yMd(),
-                        style: const TextStyle(
-                            color: Color.fromARGB(255, 88, 185, 7),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12),
-                      ),
-                      Text(
-                        DateTime.now().formatt_hms(),
-                        style: const TextStyle(
-                            color: Color.fromARGB(255, 88, 185, 7),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ),
-              ].reversed.toList(),
-            ),
-            //second w
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                const Gap(8),
-                GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Colors.black,
-                              offset: Offset(1, 1),
-                              blurRadius: 2.1)
-                        ],
-                        border: Border.all(),
-                        color: const Color.fromARGB(255, 40, 83, 201),
-                        borderRadius: BorderRadius.circular(6)),
-                    child: const Text(
-                      "الوزن الثانى",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                ),
-                const Gap(18),
-                const Text("0",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 40,
-                        fontWeight: FontWeight.w500)),
-                const Gap(22),
-                Padding(
-                  padding: const EdgeInsets.only(left: 5),
-                  child: Column(
-                    children: [
-                      Text(
-                        DateTime.now().formatt_yMd(),
-                        style: const TextStyle(
-                            color: Color.fromARGB(255, 88, 185, 7),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12),
-                      ),
-                      Text(
-                        DateTime.now().formatt_hms(),
-                        style: const TextStyle(
-                            color: Color.fromARGB(255, 88, 185, 7),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ),
-              ].reversed.toList(),
-            ),
-            const Gap(21),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(" 0  :  الوزن الصافى",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                        fontWeight: FontWeight.w500)),
-                Gap(8),
-              ],
-            ),
-            const Gap(33),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(" 0  :  مسلسل التذكره",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.normal)),
-                Gap(8),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class wightTecket extends StatelessWidget {
-  const wightTecket({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(),
-        color: const Color.fromARGB(255, 10, 102, 206),
-        borderRadius: BorderRadius.circular(30),
-        boxShadow: [
-          BoxShadow(
-            color: const Color.fromARGB(255, 129, 136, 202)
-                .withOpacity(0.5), //color of shadow
-            spreadRadius: 1, //spread radius
-            blurRadius: 1, // blur radius
-            offset: const Offset(0, 1), // changes position of shadow
-          ),
-        ],
-      ),
-      child: SizedBox(
-        width: 300,
-        height: 410,
-        child: Column(
-          children: [
-            Container(
-              decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
-                  color: Color.fromARGB(255, 3, 202, 93)),
-              child: const Padding(
-                padding: EdgeInsets.all(4.0),
-                child: Text(
-                  "بيانات تذكرة الوزن",
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
-                ),
+            )),
+        const Gap(9),
+        ElevatedButton(
+            style: const ButtonStyle(
+                backgroundColor:
+                    MaterialStatePropertyAll(Color.fromARGB(255, 203, 218, 7))),
+            onPressed: () {},
+            child: const Padding(
+              padding: EdgeInsets.all(6.0),
+              child: Text(
+                'حفظ',
+                style: TextStyle(fontSize: 18),
               ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            //رقم السياره
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 2),
-              child: AdvancedSearch(
-                searchItems: const ["1", "2"],
-                maxElementsToDisplay: 4,
-                singleItemHeight: 40,
-                borderColor: Colors.grey,
-                minLettersForSearch: 1,
-                selectedTextColor: const Color.fromARGB(255, 2, 2, 2),
-                fontSize: 22,
-                borderRadius: 12.0,
-                hintText: '       رقم السيارة',
-                cursorColor: Colors.white,
-                autoCorrect: false,
-                focusedBorderColor: Colors.blue,
-                searchResultsBgColor: const Color(0x00fafafa),
-                disabledBorderColor: Colors.cyan,
-                enabledBorderColor: Colors.black,
-                enabled: true,
-                caseSensitive: false,
-                inputTextFieldBgColor: Colors.white10,
-                clearSearchEnabled: true,
-                itemsShownAtStart: 2,
-                searchMode: SearchMode.CONTAINS,
-                showListOfResults: true,
-                unSelectedTextColor: Colors.black54,
-                verticalPadding: 10,
-                horizontalPadding: 10,
-                hideHintOnTextInputFocus: true,
-                hintTextColor: Colors.white,
-                onItemTap: (index, value) {},
-                onSearchClear: () {
-                  print("Cleared Search");
-                },
-                onSubmitted: (searchText, listOfResults) {
-                  print("Submitted: $searchText");
-                },
-                onEditingProgress: (searchText, listOfResults) {
-                  print("TextEdited: $searchText");
-                  print("LENGTH: ${listOfResults.length}");
-                },
+            )),
+        const Gap(9),
+        ElevatedButton(
+            style: const ButtonStyle(
+                backgroundColor:
+                    MaterialStatePropertyAll(Color.fromARGB(255, 203, 218, 7))),
+            onPressed: () {},
+            child: const Padding(
+              padding: EdgeInsets.all(6.0),
+              child: Text(
+                'طباعة الوزنة',
+                style: TextStyle(fontSize: 18),
               ),
-            ),
-            //اسم السائق
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 2),
-              child: AdvancedSearch(
-                searchItems: const ["1", "2"],
-                maxElementsToDisplay: 4,
-                singleItemHeight: 40,
-                borderColor: Colors.grey,
-                minLettersForSearch: 1,
-                selectedTextColor: const Color.fromARGB(255, 2, 2, 2),
-                fontSize: 22,
-                borderRadius: 12.0,
-                hintText: '       اسم السائق',
-                cursorColor: Colors.white,
-                autoCorrect: false,
-                focusedBorderColor: Colors.blue,
-                searchResultsBgColor: const Color(0x00fafafa),
-                disabledBorderColor: Colors.cyan,
-                enabledBorderColor: Colors.black,
-                enabled: true,
-                caseSensitive: false,
-                inputTextFieldBgColor: Colors.white10,
-                clearSearchEnabled: true,
-                itemsShownAtStart: 2,
-                searchMode: SearchMode.CONTAINS,
-                showListOfResults: true,
-                unSelectedTextColor: Colors.black54,
-                verticalPadding: 10,
-                horizontalPadding: 10,
-                hideHintOnTextInputFocus: true,
-                hintTextColor: Colors.white,
-                onItemTap: (index, value) {},
-                onSearchClear: () {
-                  print("Cleared Search");
-                },
-                onSubmitted: (searchText, listOfResults) {
-                  print("Submitted: $searchText");
-                },
-                onEditingProgress: (searchText, listOfResults) {
-                  print("TextEdited: $searchText");
-                  print("LENGTH: ${listOfResults.length}");
-                },
-              ),
-            ),
-            //رقم السياره
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 2),
-              child: AdvancedSearch(
-                searchItems: const ["1", "2"],
-                maxElementsToDisplay: 4,
-                singleItemHeight: 40,
-                borderColor: Colors.grey,
-                minLettersForSearch: 1,
-                selectedTextColor: const Color.fromARGB(255, 2, 2, 2),
-                fontSize: 22,
-                borderRadius: 12.0,
-                hintText: '       اسم العميل',
-                cursorColor: Colors.white,
-                autoCorrect: false,
-                focusedBorderColor: Colors.blue,
-                searchResultsBgColor: const Color(0x00fafafa),
-                disabledBorderColor: Colors.cyan,
-                enabledBorderColor: Colors.black,
-                enabled: true,
-                caseSensitive: false,
-                inputTextFieldBgColor: Colors.white10,
-                clearSearchEnabled: true,
-                itemsShownAtStart: 2,
-                searchMode: SearchMode.CONTAINS,
-                showListOfResults: true,
-                unSelectedTextColor: Colors.black54,
-                verticalPadding: 10,
-                horizontalPadding: 10,
-                hideHintOnTextInputFocus: true,
-                hintTextColor: Colors.white,
-                onItemTap: (index, value) {},
-                onSearchClear: () {
-                  print("Cleared Search");
-                },
-                onSubmitted: (searchText, listOfResults) {
-                  print("Submitted: $searchText");
-                },
-                onEditingProgress: (searchText, listOfResults) {
-                  print("TextEdited: $searchText");
-                  print("LENGTH: ${listOfResults.length}");
-                },
-              ),
-            ),
-            // العميل
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 2),
-              child: AdvancedSearch(
-                searchItems: const ["1", "2"],
-                maxElementsToDisplay: 4,
-                singleItemHeight: 40,
-                borderColor: Colors.grey,
-                minLettersForSearch: 1,
-                selectedTextColor: const Color.fromARGB(255, 2, 2, 2),
-                fontSize: 22,
-                borderRadius: 12.0,
-                hintText: '        العميل',
-                cursorColor: Colors.white,
-                autoCorrect: false,
-                focusedBorderColor: Colors.blue,
-                searchResultsBgColor: const Color(0x00fafafa),
-                disabledBorderColor: Colors.cyan,
-                enabledBorderColor: Colors.black,
-                enabled: true,
-                caseSensitive: false,
-                inputTextFieldBgColor: Colors.white10,
-                clearSearchEnabled: true,
-                itemsShownAtStart: 2,
-                searchMode: SearchMode.CONTAINS,
-                showListOfResults: true,
-                unSelectedTextColor: Colors.black54,
-                verticalPadding: 10,
-                horizontalPadding: 10,
-                hideHintOnTextInputFocus: true,
-                hintTextColor: Colors.white,
-                onItemTap: (index, value) {},
-                onSearchClear: () {
-                  print("Cleared Search");
-                },
-                onSubmitted: (searchText, listOfResults) {
-                  print("Submitted: $searchText");
-                },
-                onEditingProgress: (searchText, listOfResults) {
-                  print("TextEdited: $searchText");
-                  print("LENGTH: ${listOfResults.length}");
-                },
-              ),
-            ),
-            // اسم الصنف
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 2),
-              child: AdvancedSearch(
-                searchItems: const ["1", "2"],
-                maxElementsToDisplay: 4,
-                singleItemHeight: 40,
-                borderColor: Colors.grey,
-                minLettersForSearch: 1,
-                selectedTextColor: const Color.fromARGB(255, 2, 2, 2),
-                fontSize: 22,
-                borderRadius: 12.0,
-                hintText: '       اسم الصنف',
-                cursorColor: Colors.white,
-                autoCorrect: false,
-                focusedBorderColor: Colors.blue,
-                searchResultsBgColor: const Color(0x00fafafa),
-                disabledBorderColor: Colors.cyan,
-                enabledBorderColor: Colors.black,
-                enabled: true,
-                caseSensitive: false,
-                inputTextFieldBgColor: Colors.white10,
-                clearSearchEnabled: true,
-                itemsShownAtStart: 2,
-                searchMode: SearchMode.CONTAINS,
-                showListOfResults: true,
-                unSelectedTextColor: Colors.black54,
-                verticalPadding: 10,
-                horizontalPadding: 10,
-                hideHintOnTextInputFocus: true,
-                hintTextColor: Colors.white,
-                onItemTap: (index, value) {},
-                onSearchClear: () {
-                  print("Cleared Search");
-                },
-                onSubmitted: (searchText, listOfResults) {
-                  print("Submitted: $searchText");
-                },
-                onEditingProgress: (searchText, listOfResults) {
-                  print("TextEdited: $searchText");
-                  print("LENGTH: ${listOfResults.length}");
-                },
-              ),
-            ),
-            //رقم ازن التسليم
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 2),
-              child: AdvancedSearch(
-                searchItems: const ["1", "2"],
-                maxElementsToDisplay: 4,
-                singleItemHeight: 40,
-                borderColor: Colors.grey,
-                minLettersForSearch: 1,
-                selectedTextColor: const Color.fromARGB(255, 2, 2, 2),
-                fontSize: 22,
-                borderRadius: 12.0,
-                hintText: '       رقم ازن التسليم',
-                cursorColor: Colors.white,
-                autoCorrect: false,
-                focusedBorderColor: Colors.blue,
-                searchResultsBgColor: const Color(0x00fafafa),
-                disabledBorderColor: Colors.cyan,
-                enabledBorderColor: Colors.black,
-                enabled: true,
-                caseSensitive: false,
-                inputTextFieldBgColor: Colors.white10,
-                clearSearchEnabled: true,
-                itemsShownAtStart: 2,
-                searchMode: SearchMode.CONTAINS,
-                showListOfResults: true,
-                unSelectedTextColor: Colors.black54,
-                verticalPadding: 10,
-                horizontalPadding: 10,
-                hideHintOnTextInputFocus: true,
-                hintTextColor: Colors.white,
-                onItemTap: (index, value) {},
-                onSearchClear: () {
-                  print("Cleared Search");
-                },
-                onSubmitted: (searchText, listOfResults) {
-                  print("Submitted: $searchText");
-                },
-                onEditingProgress: (searchText, listOfResults) {
-                  print("TextEdited: $searchText");
-                  print("LENGTH: ${listOfResults.length}");
-                },
-              ),
-            ),
-            //ملاحزات
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 2),
-              child: AdvancedSearch(
-                searchItems: const ["1", "2"],
-                maxElementsToDisplay: 4,
-                singleItemHeight: 40,
-                borderColor: Colors.grey,
-                minLettersForSearch: 1,
-                selectedTextColor: const Color.fromARGB(255, 2, 2, 2),
-                fontSize: 22,
-                borderRadius: 12.0,
-                hintText: '       ملاحظات',
-                cursorColor: Colors.white,
-                autoCorrect: false,
-                focusedBorderColor: Colors.blue,
-                searchResultsBgColor: const Color(0x00fafafa),
-                disabledBorderColor: Colors.cyan,
-                enabledBorderColor: Colors.black,
-                enabled: true,
-                caseSensitive: false,
-                inputTextFieldBgColor: Colors.white10,
-                clearSearchEnabled: true,
-                itemsShownAtStart: 2,
-                searchMode: SearchMode.CONTAINS,
-                showListOfResults: true,
-                unSelectedTextColor: Colors.black54,
-                verticalPadding: 10,
-                horizontalPadding: 10,
-                hideHintOnTextInputFocus: true,
-                hintTextColor: Colors.white,
-                onItemTap: (index, value) {},
-                onSearchClear: () {
-                  print("Cleared Search");
-                },
-                onSubmitted: (searchText, listOfResults) {
-                  print("Submitted: $searchText");
-                },
-                onEditingProgress: (searchText, listOfResults) {
-                  print("TextEdited: $searchText");
-                  print("LENGTH: ${listOfResults.length}");
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
+            )),
+      ].reversed.toList(),
     );
   }
 }
@@ -673,9 +180,10 @@ class WhightInput extends StatelessWidget {
           //wight value
           Padding(
             padding: const EdgeInsets.only(right: 22),
-            child: Consumer<ImcomingValueporvider>(
-              builder: (context, myType, child) {
-                return Text(myType.nowValu,
+            child: Selector<ImcomingValueporvider, String>(
+              selector: (_, myType) => myType.nowValu,
+              builder: (context, v, child) {
+                return Text(v,
                     style: const TextStyle(
                       fontSize: 80,
                       fontWeight: FontWeight.bold,
