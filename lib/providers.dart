@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_libserialport/flutter_libserialport.dart';
 
 class ImcomingValueporvider extends ChangeNotifier {
-  var port = SerialPort('COM3');
+  var port = SerialPort('COM1');
 
   initport() {
     port.config.baudRate = 9600;
@@ -27,30 +27,24 @@ class ImcomingValueporvider extends ChangeNotifier {
   Future<void> sendMessage() async {
     for (var i = 0; i < 500; i++) {
       await Future.delayed(const Duration(milliseconds: 10));
-
       port.write(Uint8List.fromList([...i.toString().codeUnits, 10]));
       // print('Writen Bytes: $i');
     }
   }
 
-  var nowValu = "0";
+  var nowValu = "1";
 
-  addValue(String val) {
-    print(val);
-    if (val != nowValu) {
-      nowValu = val;
-    }
-  }
+
 
   stream() {
     SerialPortReader(port).stream.listen((v) {
-      addValue(utf8.decode(v).replaceAll(RegExp(r'[^0-9]'), ''));
-    });
-    // Stream<Uint8List> s = SerialPortReader(port).stream;
+      var a = utf8.decode(v).replaceAll(RegExp(r'[^0-9]'), '');
+      if (a != ''&&a != nowValu) {
+              nowValu = a;
+      print(nowValu);
 
-    // s.forEach((element) {
-    //   print(String.fromCharCodes(element));
-    // });
+      }
+    });
   }
 
   Refrech_UI() {
