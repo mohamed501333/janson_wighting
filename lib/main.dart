@@ -4,7 +4,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:janson_wighting/app.dart';
-import 'package:janson_wighting/valuesController.dart';
 import 'package:janson_wighting/widgets/%D8%A8%D9%8A%D8%A7%D9%86%D8%A7%D8%AA%20%D8%A7%D9%84%D9%88%D8%B2%D9%86%20%D9%88%20%D8%A7%D9%84%D8%AA%D8%B2%D9%83%D8%B1%D9%87.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +19,7 @@ void main() {
           ..stream(),
       ),
       ChangeNotifierProvider(
-        create: (context) => valuesControllers(),
+        create: (context) => Refresher(),
       ),
     ],
     child: const MyApp(),

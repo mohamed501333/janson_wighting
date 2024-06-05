@@ -57,7 +57,6 @@ class weightInfo extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     var val = context.read<ImcomingValueporvider>().nowValu;
-                    context.read<valuesControllers>().assignValue(val);
                   },
                   child: Container(
                     padding: const EdgeInsets.all(6),
