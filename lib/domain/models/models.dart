@@ -1,11 +1,13 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: public_member_api_docs, sort_constructors_first, non_constant_identifier_names
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
 class WieghtTecketMOdel {
   int wightTecket_ID;
-  int serial;
+  int wightTecket_serial;
+  int stockRequsition_ID;
+  int stockRequsition_serial;
   int carNum;
   String customerName;
   String driverName;
@@ -17,7 +19,9 @@ class WieghtTecketMOdel {
   List<ActionModel> actions;
   WieghtTecketMOdel({
     required this.wightTecket_ID,
-    required this.serial,
+    required this.wightTecket_serial,
+    required this.stockRequsition_ID,
+    required this.stockRequsition_serial,
     required this.carNum,
     required this.customerName,
     required this.driverName,
@@ -29,9 +33,12 @@ class WieghtTecketMOdel {
     required this.actions,
   });
 
+
   WieghtTecketMOdel copyWith({
     int? wightTecket_ID,
-    int? serial,
+    int? wightTecket_serial,
+    int? stockRequsition_ID,
+    int? stockRequsition_serial,
     int? carNum,
     String? customerName,
     String? driverName,
@@ -44,7 +51,9 @@ class WieghtTecketMOdel {
   }) {
     return WieghtTecketMOdel(
       wightTecket_ID: wightTecket_ID ?? this.wightTecket_ID,
-      serial: serial ?? this.serial,
+      wightTecket_serial: wightTecket_serial ?? this.wightTecket_serial,
+      stockRequsition_ID: stockRequsition_ID ?? this.stockRequsition_ID,
+      stockRequsition_serial: stockRequsition_serial ?? this.stockRequsition_serial,
       carNum: carNum ?? this.carNum,
       customerName: customerName ?? this.customerName,
       driverName: driverName ?? this.driverName,
@@ -60,7 +69,9 @@ class WieghtTecketMOdel {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'wightTecket_ID': wightTecket_ID,
-      'serial': serial,
+      'wightTecket_serial': wightTecket_serial,
+      'stockRequsition_ID': stockRequsition_ID,
+      'stockRequsition_serial': stockRequsition_serial,
       'carNum': carNum,
       'customerName': customerName,
       'driverName': driverName,
@@ -76,7 +87,9 @@ class WieghtTecketMOdel {
   factory WieghtTecketMOdel.fromMap(Map<String, dynamic> map) {
     return WieghtTecketMOdel(
       wightTecket_ID: map['wightTecket_ID'] as int,
-      serial: map['serial'] as int,
+      wightTecket_serial: map['wightTecket_serial'] as int,
+      stockRequsition_ID: map['stockRequsition_ID'] as int,
+      stockRequsition_serial: map['stockRequsition_serial'] as int,
       carNum: map['carNum'] as int,
       customerName: map['customerName'] as String,
       driverName: map['driverName'] as String,
@@ -85,54 +98,54 @@ class WieghtTecketMOdel {
       firstShot: map['firstShot'] as double,
       secondShot: map['secondShot'] as double,
       totalWeight: map['totalWeight'] as double,
-      actions: List<ActionModel>.from(
-        (map['actions'] as List<int>).map<ActionModel>(
-          (x) => ActionModel.fromMap(x as Map<String, dynamic>),
-        ),
-      ),
+      actions: List<ActionModel>.from((map['actions'] as List<int>).map<ActionModel>((x) => ActionModel.fromMap(x as Map<String,dynamic>),),),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory WieghtTecketMOdel.fromJson(String source) =>
-      WieghtTecketMOdel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory WieghtTecketMOdel.fromJson(String source) => WieghtTecketMOdel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'WieghtTecketMOdel(wightTecket_ID: $wightTecket_ID, serial: $serial, carNum: $carNum, customerName: $customerName, driverName: $driverName, prodcutName: $prodcutName, notes: $notes, firstShot: $firstShot, secondShot: $secondShot, totalWeight: $totalWeight, actions: $actions)';
+    return 'WieghtTecketMOdel(wightTecket_ID: $wightTecket_ID, wightTecket_serial: $wightTecket_serial, stockRequsition_ID: $stockRequsition_ID, stockRequsition_serial: $stockRequsition_serial, carNum: $carNum, customerName: $customerName, driverName: $driverName, prodcutName: $prodcutName, notes: $notes, firstShot: $firstShot, secondShot: $secondShot, totalWeight: $totalWeight, actions: $actions)';
   }
 
   @override
   bool operator ==(covariant WieghtTecketMOdel other) {
     if (identical(this, other)) return true;
-
-    return other.wightTecket_ID == wightTecket_ID &&
-        other.serial == serial &&
-        other.carNum == carNum &&
-        other.customerName == customerName &&
-        other.driverName == driverName &&
-        other.prodcutName == prodcutName &&
-        other.notes == notes &&
-        other.firstShot == firstShot &&
-        other.secondShot == secondShot &&
-        other.totalWeight == totalWeight &&
-        listEquals(other.actions, actions);
+  
+    return 
+      other.wightTecket_ID == wightTecket_ID &&
+      other.wightTecket_serial == wightTecket_serial &&
+      other.stockRequsition_ID == stockRequsition_ID &&
+      other.stockRequsition_serial == stockRequsition_serial &&
+      other.carNum == carNum &&
+      other.customerName == customerName &&
+      other.driverName == driverName &&
+      other.prodcutName == prodcutName &&
+      other.notes == notes &&
+      other.firstShot == firstShot &&
+      other.secondShot == secondShot &&
+      other.totalWeight == totalWeight &&
+      listEquals(other.actions, actions);
   }
 
   @override
   int get hashCode {
     return wightTecket_ID.hashCode ^
-        serial.hashCode ^
-        carNum.hashCode ^
-        customerName.hashCode ^
-        driverName.hashCode ^
-        prodcutName.hashCode ^
-        notes.hashCode ^
-        firstShot.hashCode ^
-        secondShot.hashCode ^
-        totalWeight.hashCode ^
-        actions.hashCode;
+      wightTecket_serial.hashCode ^
+      stockRequsition_ID.hashCode ^
+      stockRequsition_serial.hashCode ^
+      carNum.hashCode ^
+      customerName.hashCode ^
+      driverName.hashCode ^
+      prodcutName.hashCode ^
+      notes.hashCode ^
+      firstShot.hashCode ^
+      secondShot.hashCode ^
+      totalWeight.hashCode ^
+      actions.hashCode;
   }
 }
 

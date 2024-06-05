@@ -39,7 +39,6 @@ class ImcomingValueporvider extends ChangeNotifier {
       var a = utf8.decode(v).replaceAll(RegExp(r'[^0-9]'), '');
       if (a != '' && a != nowValu) {
         nowValu = a;
-        print(nowValu);
         notifyListeners();
       }
     });

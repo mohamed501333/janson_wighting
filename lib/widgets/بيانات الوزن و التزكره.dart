@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 
 import 'package:janson_wighting/app.dart';
 import 'package:janson_wighting/providers.dart';
-import 'package:janson_wighting/valuesController.dart';
 
 class weightInfo extends StatelessWidget {
   const weightInfo({
@@ -80,9 +79,9 @@ class weightInfo extends StatelessWidget {
                   ),
                 ),
                 const Gap(18),
-                Consumer<valuesControllers>(
+                Consumer<ImcomingValueporvider>(
                   builder: (context, myType, child) {
-                    return Text("${myType.firstWeight}",
+                    return Text(myType.nowValu,
                         style: const TextStyle(
                             color: Colors.white,
                             fontSize: 40,
