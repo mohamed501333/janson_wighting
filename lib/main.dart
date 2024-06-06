@@ -76,8 +76,7 @@ class Home extends StatelessWidget {
           ),
           const Gap(9),
           const buttoms(),
-          //test buttom
-          const Test(),
+
           
         ],
       ),
@@ -100,7 +99,9 @@ class buttoms extends StatelessWidget {
             style: const ButtonStyle(
                 backgroundColor:
                     MaterialStatePropertyAll(Color.fromARGB(255, 203, 218, 7))),
-            onPressed: () {},
+            onPressed: () {
+              context.read<Refresher>().clearfields();
+            },
             child: const Padding(
               padding: EdgeInsets.all(6.0),
               child: Text(
@@ -139,27 +140,6 @@ class buttoms extends StatelessWidget {
   }
 }
 
-class Test extends StatelessWidget {
-  const Test({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: <Widget>[
-          IconButton(
-              icon: const Icon(Icons.send),
-              onPressed: () {
-                context.read<ImcomingValueporvider>().sendMessage();
-              }),
-        ],
-      ),
-    );
-  }
-}
 
 class WhightInput extends StatelessWidget {
   const WhightInput({

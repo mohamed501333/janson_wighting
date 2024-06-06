@@ -55,7 +55,7 @@ class weightInfo extends StatelessWidget {
                 const Gap(8),
                 GestureDetector(
                   onTap: () {
-                    var val = context.read<ImcomingValueporvider>().nowValu;
+                    // var val = context.read<ImcomingValueporvider>().nowValu;
                   },
                   child: Container(
                     padding: const EdgeInsets.all(6),
@@ -205,7 +205,6 @@ class wightTecket extends StatelessWidget {
   wightTecket({
     super.key,
   });
-  TextEditingController carnumcontroller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -226,36 +225,63 @@ class wightTecket extends StatelessWidget {
       child: SizedBox(
         width: 300,
         height: 410,
-        child: Column(
-          children: [
-            Container(
-              decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
-                  color: Color.fromARGB(255, 3, 202, 93)),
-              child: const Padding(
-                padding: EdgeInsets.all(4.0),
-                child: Text(
-                  "بيانات تذكرة الوزن",
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                    color: Color.fromARGB(255, 3, 202, 93)),
+                child: const Padding(
+                  padding: EdgeInsets.all(4.0),
+                  child: Text(
+                    "بيانات تذكرة الوزن",
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            //رقم السياره
-            customField(
-              controller: carnumcontroller,
-              name: "رقم السياره",
-              sugestions: ["mohamed", "ahmed", "mohamed", "ahmed", 'samy'],
-            ),
-            //اسم السائق
-            //رقم السياره
-            // العميل
-            // اسم الصنف
-            //رقم ازن التسليم
-            //ملاحزات
-          ],
+              const SizedBox(
+                height: 5,
+              ),
+              //رقم السياره
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    customField(
+                      controller: context.read<Refresher>().carnumcontroller,
+                      name: "رقم السياره",
+                      sugestions: ["mohamed", "ahmed", "mohamed", "ahmed", 'samy'],
+                    ),
+                    Gap(5),
+                    customField(
+                      controller: context.read<Refresher>().drivernamecontroller,
+                      name: "اسم السائق",
+                      sugestions: ["mohamed", "ahmed", "mohamed", "ahmed", 'samy'],
+                    ),            Gap(5),
+                    
+                    customField(
+                      controller: context.read<Refresher>().customercontroller,
+                      name: "العميل",
+                      sugestions: ["mohamed", "ahmed", "mohamed", "ahmed", 'samy'],
+                    ),            Gap(5),
+                    
+                    customField(
+                      controller: context.read<Refresher>().itemcontroller,
+                      name: "الصنف",
+                      sugestions: ["mohamed", "ahmed", "mohamed", "ahmed", 'samy'],
+                    ),            Gap(5),
+                    
+                    customField(
+                      controller: context.read<Refresher>().notescontroller,
+                      name: "ملاحظات",
+                      sugestions: ["mohamed", "ahmed", "mohamed", "ahmed", 'samy'],
+                    ),
+                  ],
+                ),
+              ),
+              
+            ],
+          ),
         ),
       ),
     );
@@ -273,12 +299,13 @@ class customField extends StatelessWidget {
   final TextEditingController controller;
   final String name;
   final List<String> sugestions;
-  String v = '';
+  String v='';
   @override
   Widget build(BuildContext context) {
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 2),
-      child: Consumer<ImcomingValueporvider>(
+      child: Consumer<Refresher>(
         builder: (context, myType, child) {
           var s = sugestions
               .where(
@@ -289,20 +316,22 @@ class customField extends StatelessWidget {
           return Column(
             children: [
               TextField(
+                style: const TextStyle(color: Color.fromARGB(255, 213, 25, 78),fontSize: 18,fontWeight: FontWeight.w500),
                 cursorColor: Colors.white,
                 decoration: InputDecoration(
-                  floatingLabelStyle: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 18),
+                  floatingLabelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18,color: Colors.black),
                   contentPadding: const EdgeInsets.all(9),
                   filled: true,
                   fillColor: Colors.blue,
                   border: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white54),
                     borderRadius: BorderRadius.all(
                       Radius.circular(10.0),
                     ),
                   ),
                   labelText: name,
-                  labelStyle: const TextStyle(fontSize: 16),
+                  
+                  labelStyle: const TextStyle(fontSize: 16,color: Colors.black),
                   suffixIcon: const Icon(Icons.numbers),
                 ),
                 controller: controller,
@@ -310,19 +339,19 @@ class customField extends StatelessWidget {
                 onChanged: (String value) {
                   controller.text = value;
                   v = value;
-                  context.read<ImcomingValueporvider>().Refrech_UI();
+                  context.read<Refresher>().Refrech_UI();
                 },
               ),
-              s.isEmpty || controller.text == "" || v == ''
+              s.isEmpty || controller.text.isEmpty || v == ''
                   ? const SizedBox()
                   : Column(
                       children: s
                           .map((e) => GestureDetector(
                                 onTap: () {
                                   controller.text = e;
-                                  v = '';
+                                 v = '';
                                   context
-                                      .read<ImcomingValueporvider>()
+                                      .read<Refresher>()
                                       .Refrech_UI();
                                 },
                                 child: Container(

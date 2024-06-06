@@ -49,6 +49,21 @@ class ImcomingValueporvider extends ChangeNotifier {
   }
 }
 class Refresher extends ChangeNotifier {
+  String v='';
+    TextEditingController carnumcontroller = TextEditingController();
+    TextEditingController drivernamecontroller = TextEditingController();
+    TextEditingController customercontroller = TextEditingController();
+    TextEditingController itemcontroller = TextEditingController();
+    TextEditingController notescontroller = TextEditingController();
+   clearfields(){
+    v='';
+    carnumcontroller.clear();
+    drivernamecontroller.clear();
+    customercontroller.clear();
+    itemcontroller.clear();
+    notescontroller.clear();
+    notifyListeners();
+   }
     Refrech_UI() {
     notifyListeners();
   }
