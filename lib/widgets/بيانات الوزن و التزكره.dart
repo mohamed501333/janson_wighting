@@ -6,6 +6,7 @@ import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
 import 'package:janson_wighting/app.dart';
+import 'package:janson_wighting/domain/enums.dart';
 import 'package:janson_wighting/providers.dart';
 
 class weightInfo extends StatelessWidget {
@@ -31,7 +32,7 @@ class weightInfo extends StatelessWidget {
         ],
       ),
       child: SizedBox(
-        width: 300,
+        width: 350,
         height: 410,
         child: Column(
           children: [
@@ -48,151 +49,213 @@ class weightInfo extends StatelessWidget {
               ),
             ),
             const Gap(33),
-            //firest w
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                const Gap(8),
-                GestureDetector(
-                  onTap: () {
-                    // var val = context.read<ImcomingValueporvider>().nowValu;
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Colors.black,
-                              offset: Offset(1, 1),
-                              blurRadius: 2.1)
+            Consumer<Hivecontroller>(
+              builder: (context, myType, child) {
+                return myType.temprecord == null
+                    ? const SizedBox()
+                    : Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              const Gap(8),
+                              GestureDetector(
+                                onTap: () {
+                                  var record = myType.temprecord;
+                                  record!.firstShot = 3336;
+                                  record.actions.add(
+                                      WhigtTecketAction.create_fristWhight.add);
+                                  myType.updateRecord(record);
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.all(6),
+                                  decoration: BoxDecoration(
+                                      boxShadow: const [
+                                        BoxShadow(
+                                            color: Colors.black,
+                                            offset: Offset(1, 1),
+                                            blurRadius: 2.1)
+                                      ],
+                                      border: Border.all(),
+                                      color: const Color.fromARGB(
+                                          255, 40, 83, 201),
+                                      borderRadius: BorderRadius.circular(6)),
+                                  child: const Text(
+                                    "الوزن الاول",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ),
+                              const Gap(18),
+                              myType.temprecord?.firstShot == 0
+                                  ? const SizedBox()
+                                  : Row(
+                                      children: [
+                                        Text(
+                                            myType.temprecord!.firstShot
+                                                .toStringAsFixed(0),
+                                            style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 40,
+                                                fontWeight: FontWeight.w500)),
+                                        const Gap(22),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 5),
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                myType.temprecord!.actions
+                                                    .get_Date_of_action(
+                                                        WhigtTecketAction
+                                                            .create_fristWhight
+                                                            .getTitle)
+                                                    .formatt_yMd(),
+                                                style: const TextStyle(
+                                                    color: Color.fromARGB(
+                                                        255, 119, 255, 8),
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 12),
+                                              ),
+                                              Text(
+                                                myType.temprecord!.actions
+                                                    .get_Date_of_action(
+                                                        WhigtTecketAction
+                                                            .create_fristWhight
+                                                            .getTitle)
+                                                    .formatt_hms(),
+                                                style: const TextStyle(
+                                                    color: Color.fromARGB(
+                                                        255, 119, 255, 8),
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 12),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                            ].reversed.toList(),
+                          ),
+                          const Gap(21),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              const Gap(8),
+                              GestureDetector(
+                                onTap: () {
+                                  var record = myType.temprecord;
+                                  record!.secondShot = 4444;
+                                  record.totalWeight =
+                                      4444 - myType.temprecord!.firstShot;
+                                  record.actions.add(
+                                      WhigtTecketAction.create_secondWhigt.add);
+                                  myType.updateRecord(record);
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.all(6),
+                                  decoration: BoxDecoration(
+                                      boxShadow: const [
+                                        BoxShadow(
+                                            color: Colors.black,
+                                            offset: Offset(1, 1),
+                                            blurRadius: 2.1)
+                                      ],
+                                      border: Border.all(),
+                                      color: const Color.fromARGB(
+                                          255, 40, 83, 201),
+                                      borderRadius: BorderRadius.circular(6)),
+                                  child: const Text(
+                                    "الوزن الثانى",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ),
+                              const Gap(18),
+                              myType.temprecord?.secondShot == 0
+                                  ? const SizedBox()
+                                  : Row(
+                                      children: [
+                                        Text(
+                                            myType.temprecord!.firstShot
+                                                .toStringAsFixed(0),
+                                            style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 40,
+                                                fontWeight: FontWeight.w500)),
+                                        const Gap(22),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 5),
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                myType.temprecord!.actions
+                                                    .get_Date_of_action(
+                                                        WhigtTecketAction
+                                                            .create_secondWhigt
+                                                            .getTitle)
+                                                    .formatt_yMd(),
+                                                style: const TextStyle(
+                                                    color: Color.fromARGB(
+                                                        255, 119, 255, 8),
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 12),
+                                              ),
+                                              Text(
+                                                myType.temprecord!.actions
+                                                    .get_Date_of_action(
+                                                        WhigtTecketAction
+                                                            .create_secondWhigt
+                                                            .getTitle)
+                                                    .formatt_hms(),
+                                                style: const TextStyle(
+                                                    color: Color.fromARGB(
+                                                        255, 119, 255, 8),
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 12),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                            ].reversed.toList(),
+                          ),
+                          const Gap(21),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                  " ${myType.temprecord!.totalWeight.toStringAsFixed(0)}  :  الوزن الصافى",
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w500)),
+                              const Gap(8),
+                            ],
+                          ),
+                          const Gap(33),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(" ${myType.ticketserial} :  مسلسل التذكره",
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal)),
+                              const Gap(8),
+                            ],
+                          ),
                         ],
-                        border: Border.all(),
-                        color: const Color.fromARGB(255, 40, 83, 201),
-                        borderRadius: BorderRadius.circular(6)),
-                    child: const Text(
-                      "الوزن الاول",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                ),
-                const Gap(18),
-                Consumer<ImcomingValueporvider>(
-                  builder: (context, myType, child) {
-                    return Text(myType.nowValu,
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 40,
-                            fontWeight: FontWeight.w500));
-                  },
-                ),
-                const Gap(22),
-                Padding(
-                  padding: const EdgeInsets.only(left: 5),
-                  child: Column(
-                    children: [
-                      Text(
-                        DateTime.now().formatt_yMd(),
-                        style: const TextStyle(
-                            color: Color.fromARGB(255, 88, 185, 7),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12),
-                      ),
-                      Text(
-                        DateTime.now().formatt_hms(),
-                        style: const TextStyle(
-                            color: Color.fromARGB(255, 88, 185, 7),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ),
-              ].reversed.toList(),
-            ),
-            //second w
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                const Gap(8),
-                GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Colors.black,
-                              offset: Offset(1, 1),
-                              blurRadius: 2.1)
-                        ],
-                        border: Border.all(),
-                        color: const Color.fromARGB(255, 40, 83, 201),
-                        borderRadius: BorderRadius.circular(6)),
-                    child: const Text(
-                      "الوزن الثانى",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                ),
-                const Gap(18),
-                const Text("0",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 40,
-                        fontWeight: FontWeight.w500)),
-                const Gap(22),
-                Padding(
-                  padding: const EdgeInsets.only(left: 5),
-                  child: Column(
-                    children: [
-                      Text(
-                        DateTime.now().formatt_yMd(),
-                        style: const TextStyle(
-                            color: Color.fromARGB(255, 88, 185, 7),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12),
-                      ),
-                      Text(
-                        DateTime.now().formatt_hms(),
-                        style: const TextStyle(
-                            color: Color.fromARGB(255, 88, 185, 7),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ),
-              ].reversed.toList(),
-            ),
-            const Gap(21),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(" 0  :  الوزن الصافى",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                        fontWeight: FontWeight.w500)),
-                Gap(8),
-              ],
-            ),
-            const Gap(33),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(" 0  :  مسلسل التذكره",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.normal)),
-                Gap(8),
-              ],
+                      );
+              },
             )
           ],
         ),
@@ -200,6 +263,8 @@ class weightInfo extends StatelessWidget {
     );
   }
 }
+
+GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
 class wightTecket extends StatelessWidget {
   wightTecket({
@@ -243,43 +308,87 @@ class wightTecket extends StatelessWidget {
               const SizedBox(
                 height: 5,
               ),
-              //رقم السياره
-              SingleChildScrollView(
-                child: Column(
-                  children: [
-                    customField(
-                      controller: context.read<Refresher>().carnumcontroller,
-                      name: "رقم السياره",
-                      sugestions: ["mohamed", "ahmed", "mohamed", "ahmed", 'samy'],
-                    ),
-                    Gap(5),
-                    customField(
-                      controller: context.read<Refresher>().drivernamecontroller,
-                      name: "اسم السائق",
-                      sugestions: ["mohamed", "ahmed", "mohamed", "ahmed", 'samy'],
-                    ),            Gap(5),
-                    
-                    customField(
-                      controller: context.read<Refresher>().customercontroller,
-                      name: "العميل",
-                      sugestions: ["mohamed", "ahmed", "mohamed", "ahmed", 'samy'],
-                    ),            Gap(5),
-                    
-                    customField(
-                      controller: context.read<Refresher>().itemcontroller,
-                      name: "الصنف",
-                      sugestions: ["mohamed", "ahmed", "mohamed", "ahmed", 'samy'],
-                    ),            Gap(5),
-                    
-                    customField(
-                      controller: context.read<Refresher>().notescontroller,
-                      name: "ملاحظات",
-                      sugestions: ["mohamed", "ahmed", "mohamed", "ahmed", 'samy'],
-                    ),
-                  ],
-                ),
-              ),
-              
+             SingleChildScrollView(
+                          child: Form(
+                         key: formKey,
+                        child: Column(
+                              children: [
+                                customField(
+                                  validator: Validation.validateothers,
+                                  controller: context
+                                      .read<Hivecontroller>()
+                                      .carnumcontroller,
+                                  name: "رقم السياره",
+                                  sugestions: const [
+                                    "mohamed",
+                                    "ahmed",
+                                    "mohamed",
+                                    "ahmed",
+                                    'samy'
+                                  ],
+                                ),
+                                const Gap(5),
+                                customField(
+                                  controller: context
+                                      .read<Hivecontroller>()
+                                      .drivernamecontroller,
+                                  name: "اسم السائق",
+                                  sugestions: const [
+                                    "mohamed",
+                                    "ahmed",
+                                    "mohamed",
+                                    "ahmed",
+                                    'samy'
+                                  ],
+                                ),
+                                const Gap(5),
+                                customField(
+                                  controller: context
+                                      .read<Hivecontroller>()
+                                      .customercontroller,
+                                  name: "العميل",
+                                  sugestions: const [
+                                    "mohamed",
+                                    "ahmed",
+                                    "mohamed",
+                                    "ahmed",
+                                    'samy'
+                                  ],
+                                ),
+                                const Gap(5),
+                                customField(
+                                  controller: context
+                                      .read<Hivecontroller>()
+                                      .itemcontroller,
+                                  name: "الصنف",
+                                  sugestions: const [
+                                    "mohamed",
+                                    "ahmed",
+                                    "mohamed",
+                                    "ahmed",
+                                    'samy'
+                                  ],
+                                ),
+                              
+                                const Gap(5),
+                                customField(
+                                  controller: context
+                                      .read<Hivecontroller>()
+                                      .notescontroller,
+                                  name: "ملاحظات",
+                                  sugestions: const [
+                                    "mohamed",
+                                    "ahmed",
+                                    "mohamed",
+                                    "ahmed",
+                                    'samy'
+                                  ],
+                                ),
+                              
+                              ],
+                            ),
+                      ),
+                        )
             ],
           ),
         ),
@@ -290,36 +399,49 @@ class wightTecket extends StatelessWidget {
 
 class customField extends StatelessWidget {
   customField({
-    super.key,
+    Key? key,
     required this.controller,
     required this.name,
     required this.sugestions,
-  });
+    this.validator,
+    this.enabled = true,
+  }) : super(key: key);
 
   final TextEditingController controller;
   final String name;
   final List<String> sugestions;
-  String v='';
+  String v = '';
+  final bool enabled;
+  final String? Function(String?)? validator;
+
   @override
   Widget build(BuildContext context) {
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 2),
-      child: Consumer<Refresher>(
+      child: Consumer<Hivecontroller>(
         builder: (context, myType, child) {
           var s = sugestions
               .where(
                   (element) => element.toLowerCase().contains(controller.text))
               .toList()
               .take(3);
-
-          return Column(
+          return  myType.temprecord == null
+                      ? const SizedBox()
+                      :  Column(
             children: [
-              TextField(
-                style: const TextStyle(color: Color.fromARGB(255, 213, 25, 78),fontSize: 18,fontWeight: FontWeight.w500),
+              TextFormField(
+                validator: validator,
+                enabled: enabled,
+                style: const TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500),
                 cursorColor: Colors.white,
                 decoration: InputDecoration(
-                  floatingLabelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18,color: Colors.black),
+                  floatingLabelStyle: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.black),
                   contentPadding: const EdgeInsets.all(9),
                   filled: true,
                   fillColor: Colors.blue,
@@ -330,16 +452,15 @@ class customField extends StatelessWidget {
                     ),
                   ),
                   labelText: name,
-                  
-                  labelStyle: const TextStyle(fontSize: 16,color: Colors.black),
+                  labelStyle:
+                      const TextStyle(fontSize: 16, color: Colors.black),
                   suffixIcon: const Icon(Icons.numbers),
                 ),
                 controller: controller,
-                onSubmitted: (String value) {},
                 onChanged: (String value) {
                   controller.text = value;
                   v = value;
-                  context.read<Refresher>().Refrech_UI();
+                  context.read<Hivecontroller>().Refrech_UI();
                 },
               ),
               s.isEmpty || controller.text.isEmpty || v == ''
@@ -349,10 +470,8 @@ class customField extends StatelessWidget {
                           .map((e) => GestureDetector(
                                 onTap: () {
                                   controller.text = e;
-                                 v = '';
-                                  context
-                                      .read<Refresher>()
-                                      .Refrech_UI();
+                                  v = '';
+                                  context.read<Hivecontroller>().Refrech_UI();
                                 },
                                 child: Container(
                                   width: 100,

@@ -2,10 +2,16 @@
 
 import 'dart:async';
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_libserialport/flutter_libserialport.dart';
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
+import 'package:hive/hive.dart';
+import 'package:janson_wighting/domain/enums.dart';
+import 'package:janson_wighting/domain/models/models.dart';
+
 
 class ImcomingValueporvider extends ChangeNotifier {
   var port = SerialPort('COM1');
@@ -48,7 +54,10 @@ class ImcomingValueporvider extends ChangeNotifier {
     notifyListeners();
   }
 }
-class Refresher extends ChangeNotifier {
+
+class Hivecontroller extends ChangeNotifier {
+WieghtTecketMOdel? temprecord;
+     int ticketserial=0;
   String v='';
     TextEditingController carnumcontroller = TextEditingController();
     TextEditingController drivernamecontroller = TextEditingController();
@@ -64,7 +73,39 @@ class Refresher extends ChangeNotifier {
     notescontroller.clear();
     notifyListeners();
    }
+
+      initHive()  async {     
+             print("12222222");
+      var path = Directory.current.path;
+       Hive.init(path);
+       await Hive.openBox('records').then((h){
+        allrecords.addAll(Hive.box('records').values.map((v){return WieghtTecketMOdel.fromJson(v);}));
+                Hive.box('records').watch().forEach((r){
+                  allrecords.clear();
+        allrecords.addAll(Hive.box('records').values.map((v){return WieghtTecketMOdel.fromJson(v);}));
+         print(allrecords);
+       });  
+        //  print(allrecords);
+        });
+   }
+
+
+     
+ List<WieghtTecketMOdel> allrecords=[];
+
+  addNewRecord(){
+     var record =WieghtTecketMOdel(wightTecket_ID: DateTime.now().microsecondsSinceEpoch, wightTecket_serial: allrecords.length+1, stockRequsition_ID: 0, stockRequsition_serial: 0, carNum: 0, customerName: '', driverName: '', prodcutName: '', notes: '', firstShot: 0, secondShot: 0, totalWeight: 0, actions: [WhigtTecketAction.create_newTicket.add]);
+    Hive.box('records').put(record.wightTecket_serial, record.toJson());
+    ticketserial =record.wightTecket_serial;
+    temprecord=record;
+    notifyListeners();
+  }
+  updateRecord(WieghtTecketMOdel record){
+    Hive.box('records').put(record.wightTecket_serial, record.toJson());
+    notifyListeners();
+  }
     Refrech_UI() {
     notifyListeners();
   }
 }
+

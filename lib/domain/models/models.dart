@@ -98,7 +98,7 @@ class WieghtTecketMOdel {
       firstShot: map['firstShot'] as double,
       secondShot: map['secondShot'] as double,
       totalWeight: map['totalWeight'] as double,
-      actions: List<ActionModel>.from((map['actions'] as List<int>).map<ActionModel>((x) => ActionModel.fromMap(x as Map<String,dynamic>),),),
+      actions: List<ActionModel>.from((map['actions'] as List<dynamic>).map<ActionModel>((x) => ActionModel.fromMap(x as Map<String,dynamic>),),),
     );
   }
 
