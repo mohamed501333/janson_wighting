@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, camel_case_types
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:janson_wighting/app.dart';
@@ -7,8 +8,8 @@ import 'package:janson_wighting/providers.dart';
 import 'package:janson_wighting/widgets/buttoms.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
-
 import 'widgets/بيانات الوزن و التزكره.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -22,9 +23,6 @@ void main() {
       ChangeNotifierProvider(
         create: (context) => Hivecontroller()..initHive(),
       ),
-      // ChangeNotifierProvider(
-      //   create: (context) => Hivecontroller()..initHive(),
-      // )
     ],
     child: const MyApp(),
   ));
@@ -42,6 +40,11 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       home: Scaffold(
         appBar: AppBar(
+          title: const Center(
+              child: Text(
+            "يانسن فوم",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          )),
           backgroundColor: const Color.fromARGB(255, 9, 116, 238),
         ),
         backgroundColor: const Color.fromARGB(255, 10, 102, 206),
@@ -53,12 +56,8 @@ class MyApp extends StatelessWidget {
 
 class Home extends StatelessWidget {
   Home({super.key});
-
   @override
   Widget build(BuildContext context) {
-
-
-
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -69,21 +68,47 @@ class Home extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              //بيانات  الوزن
-              const weightInfo(),
-              const SizedBox(
-                width: 9,
+              Column(
+                children: [
+                  StreamBuilder(
+                    stream: timedCounter(101),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      // utf8.decode( snapshot.data);
+                      return snapshot.hasData
+                          ? Image.memory(
+                              snapshot.data,
+                              width: MediaQuery.of(context).size.width * .22,
+                              height: 230,
+                              fit: BoxFit.fill,
+                            )
+                          : const SizedBox();
+                    },
+                  ),
+                  StreamBuilder(
+                    stream: timedCounter(202),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      return snapshot.hasData
+                          ? Image.memory(
+                              snapshot.data,
+                              width: MediaQuery.of(context).size.width * .22,
+                              height: 230,
+                              fit: BoxFit.fill,
+                            )
+                          : const SizedBox();
+                    },
+                  ),
+                ],
               ),
-              //بيانات التزكره
+              const NotCompletedTecket(),
+              const Gap(9),
+              const weightInfo(),
+              const Gap(9),
               wightTecket(),
-              const SizedBox(
-                width: 9,
-              )
+              const Gap(9)
             ],
           ),
           const Gap(9),
           const buttoms(),
-
         ],
       ),
     );
@@ -153,17 +178,80 @@ class WhightInput extends StatelessWidget {
     );
   }
 }
-gett() async {
-  var request = http.Request('GET', Uri.parse('http://admin:Admin%40123@192.168.1.4/ISAPI/Streaming/channels/101/picture'));
 
+Future<Uint8List> gett() async {
+// var request = http.Request('GET', Uri.parse('http://admin:Admin%40@192.168.1.4/ISAPI/Streaming/channels/101/picture'));
 
-http.StreamedResponse response = await request.send();
+//   http.StreamedResponse response = await request.send();
 
-if (response.statusCode == 200) {
-  print(await response.stream.bytesToString());
+//   if (response.statusCode == 200) {
+//     print(await response.stream.bytesToString());
+//   }
+//   else {
+//     print(response.reasonPhrase);
+//   }
+//     final onvif = await Onvif.connect(
+//  host:"192.168.1.4:80",
+//  username: "admin",
+//  password:'Admin@123');
+//  var i=await onvif.deviceManagement.getDeviceInformation();
+//  print(onvif.s);
+
+// var dio = Dio();
+// var response = await dio.request(
+//   'http://admin:Admin%40123@192.168.1.4/ISAPI/Streaming/channels/101/picture',
+//   options: Options(
+//     method: 'GET',
+//   ),
+// );
+
+// if (response.statusCode == 200) {
+//   print(json.encode(response.data));
+// }
+// else {
+//   print(response.statusMessage);
+// }
+
+  final url = Uri.parse(
+      'http://admin:Admin%40123@192.168.1.4/ISAPI/Streaming/channels/101/picture'); //Repclace Your Endpoint
+  final headers = {
+    'Accept': '*/*',
+    'Cache-Control': 'no-cache',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Content-Type': 'image/jpeg',
+    'Authorization': 'Basic YWRtaW46QWRtaW5AMTIz'
+  };
+
+  final response = await http.get(
+    url,
+    headers: headers,
+  );
+
+  if (response.statusCode == 200) {
+    print('Data Sending Success.');
+  } else {
+    print('Hata: ');
+  }
+  return response.bodyBytes;
 }
-else {
-  print(response.reasonPhrase);
-}
 
+Stream<Uint8List> timedCounter(int x) async* {
+  final url = Uri.parse(
+      'http://admin:Admin%40123@192.168.1.4/ISAPI/Streaming/channels/$x/picture'); //Repclace Your Endpoint
+  final headers = {
+    'Accept': '*/*',
+    'Cache-Control': 'no-cache',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Content-Type': 'image/jpeg',
+    'Authorization': 'Basic YWRtaW46QWRtaW5AMTIz'
+  };
+
+  while (true) {
+    final response = await http.get(
+      url,
+      headers: headers,
+    );
+    await Future.delayed(const Duration(seconds: 1));
+    yield response.bodyBytes;
+  }
 }
