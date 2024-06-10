@@ -13,7 +13,6 @@ import 'package:hive/hive.dart';
 import 'package:janson_wighting/domain/enums.dart';
 import 'package:janson_wighting/domain/models/models.dart';
 
-
 class ImcomingValueporvider extends ChangeNotifier {
   var port = SerialPort('COM1');
 
@@ -57,72 +56,105 @@ class ImcomingValueporvider extends ChangeNotifier {
 }
 
 class Hivecontroller extends ChangeNotifier {
-WieghtTecketMOdel? temprecord;
-  String v='';
-  bool canedit1 =true;
-  bool canedit2 =true;
-    TextEditingController carnumcontroller = TextEditingController();
-    TextEditingController drivernamecontroller = TextEditingController();
-    TextEditingController customercontroller = TextEditingController();
-    TextEditingController itemcontroller = TextEditingController();
-    TextEditingController notescontroller = TextEditingController();
-   clearfields(){
-    v='';
+  WieghtTecketMOdel? temprecord;
+  String v = '';
+  bool canedit1 = true;
+  bool canedit2 = true;
+  TextEditingController carnumcontroller = TextEditingController();
+  TextEditingController drivernamecontroller = TextEditingController();
+  TextEditingController customercontroller = TextEditingController();
+  TextEditingController itemcontroller = TextEditingController();
+  TextEditingController notescontroller = TextEditingController();
+  clearfields() {
+    v = '';
     carnumcontroller.clear();
     drivernamecontroller.clear();
     customercontroller.clear();
     itemcontroller.clear();
     notescontroller.clear();
     notifyListeners();
-   }
+  }
 
-      initHive()  async {     
-      var path = Directory.current.path;
-       Hive.init(path);
-       await Hive.openBox('records').then((h){
-        allrecords.addAll(Hive.box('records').values.map((v)=> WieghtTecketMOdel.fromJson(v)).where((r)=>r.actions.where((o)=>o.action=="archive_tecket").isEmpty));
+  initHive() async {
+    var path = Directory.current.path;
+    Hive.init(path);
+    await Hive.openBox('records').then((h) {
+      allrecords.addAll(Hive.box('records')
+          .values
+          .map((v) => WieghtTecketMOdel.fromJson(v))
+          .where((r) =>
+              r.actions.where((o) => o.action == "archive_tecket").isEmpty));
 
-                Hive.box('records').watch().forEach((r){
-                  allrecords.clear();
-                  allrecords.addAll(Hive.box('records').values.map((v)=> WieghtTecketMOdel.fromJson(v)).where((r)=>r.actions.where((o)=>o.action=="archive_tecket").isEmpty));
-       });  
+      Hive.box('records').watch().forEach((r) {
+        allrecords.clear();
+        allrecords.addAll(Hive.box('records')
+            .values
+            .map((v) => WieghtTecketMOdel.fromJson(v))
+            .where((r) =>
+                r.actions.where((o) => o.action == "archive_tecket").isEmpty));
+      });
 
-
-       notifyListeners();
-        });
-   }
-
-
-     
- List<WieghtTecketMOdel> allrecords=[];
-
-  addNewRecord(){
+      notifyListeners();
+    });
+  }
+  Uint8List?cam1;
+  Uint8List?cam2;
+  // var encoded = utf8.encode();
+  // var decoded = utf8.decode();
+  List<WieghtTecketMOdel> allrecords = [];
+// String s = new String.fromCharCodes(inputAsUint8List);
+// var outputAsUint8List = new Uint8List.fromList(s.codeUnits);
+  addNewRecord() {
     clearfields();
-     var record =WieghtTecketMOdel(wightTecket_ID: DateTime.now().microsecondsSinceEpoch, wightTecket_serial: allrecords.isEmpty?1:allrecords.sortedBy<num>((p)=>p.wightTecket_serial).last.wightTecket_serial+1, stockRequsition_ID: 0, stockRequsition_serial: 0, carNum: 0, customerName: '', driverName: '', prodcutName: '', notes: '', firstShot: 0, secondShot: 0, totalWeight: 0, actions: [WhigtTecketAction.create_newTicket.add],firstShotpic: [],secondShotpic: []);
-       temprecord=record;
- Hive.box('records').put(record.wightTecket_serial, record.toJson());
-    notifyListeners();
-  }
-  FillRecord(WieghtTecketMOdel r){
-    temprecord=r;
- carnumcontroller.text =r.carNum.toString();
-     drivernamecontroller.text = r.driverName;
-     customercontroller.text =r.customerName;
-     itemcontroller.text = r.prodcutName;
-     notescontroller.text = r.notes;
-    notifyListeners();
-  }
-  updateRecord(WieghtTecketMOdel record){
+    var record = WieghtTecketMOdel(
+        wightTecket_ID: DateTime.now().microsecondsSinceEpoch,
+        wightTecket_serial: allrecords.isEmpty
+            ? 1
+            : allrecords
+                    .sortedBy<num>((p) => p.wightTecket_serial)
+                    .last
+                    .wightTecket_serial +
+                1,
+        stockRequsition_ID: 0,
+        stockRequsition_serial: 0,
+        carNum: 0,
+        customerName: '',
+        driverName: '',
+        prodcutName: '',
+        notes: '',
+        firstShot: 0,
+        secondShot: 0,
+        totalWeight: 0,
+        actions: [WhigtTecketAction.create_newTicket.add],
+        firstShotpic: [],
+        secondShotpic: []);
+    temprecord = record;
     Hive.box('records').put(record.wightTecket_serial, record.toJson());
     notifyListeners();
   }
-  removeRecord(WieghtTecketMOdel record){
+
+  FillRecord(WieghtTecketMOdel r) {
+    temprecord = r;
+    carnumcontroller.text = r.carNum.toString();
+    drivernamecontroller.text = r.driverName;
+    customercontroller.text = r.customerName;
+    itemcontroller.text = r.prodcutName;
+    notescontroller.text = r.notes;
+    notifyListeners();
+  }
+
+  updateRecord(WieghtTecketMOdel record) {
+    Hive.box('records').put(record.wightTecket_serial, record.toJson());
+    notifyListeners();
+  }
+
+  removeRecord(WieghtTecketMOdel record) {
     Hive.box('records').put(record.wightTecket_serial, record.toJson());
 
     notifyListeners();
   }
-    Refrech_UI() {
+
+  Refrech_UI() {
     notifyListeners();
   }
 }
-

@@ -1,13 +1,17 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, camel_case_types
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:janson_wighting/app.dart';
 import 'package:janson_wighting/providers.dart';
 import 'package:janson_wighting/widgets/buttoms.dart';
+import 'package:janson_wighting/widgets/pdf.dart';
+import 'package:printing/printing.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'widgets/الاولى والثانيه.dart';
 import 'widgets/بيانات الوزن و التزكره.dart';
 import 'package:flutter/services.dart';
 
@@ -73,28 +77,33 @@ class Home extends StatelessWidget {
                   StreamBuilder(
                     stream: timedCounter(101),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      // utf8.decode( snapshot.data);
-                      return snapshot.hasData
-                          ? Image.memory(
-                              snapshot.data,
-                              width: MediaQuery.of(context).size.width * .22,
-                              height: 230,
-                              fit: BoxFit.fill,
-                            )
-                          : const SizedBox();
+                      if (snapshot.hasData) {
+                        context.read<Hivecontroller>().cam1 = snapshot.data;
+                        return Image.memory(
+                          snapshot.data,
+                          width: MediaQuery.of(context).size.width * .22,
+                          height: 230,
+                          fit: BoxFit.fill,
+                        );
+                      } else {
+                        return const SizedBox();
+                      }
                     },
                   ),
                   StreamBuilder(
                     stream: timedCounter(202),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      return snapshot.hasData
-                          ? Image.memory(
-                              snapshot.data,
-                              width: MediaQuery.of(context).size.width * .22,
-                              height: 230,
-                              fit: BoxFit.fill,
-                            )
-                          : const SizedBox();
+                      if (snapshot.hasData) {
+                        context.read<Hivecontroller>().cam2 = snapshot.data;
+                        return Image.memory(
+                          snapshot.data,
+                          width: MediaQuery.of(context).size.width * .22,
+                          height: 230,
+                          fit: BoxFit.fill,
+                        );
+                      } else {
+                        return const SizedBox();
+                      }
                     },
                   ),
                 ],
@@ -109,6 +118,58 @@ class Home extends StatelessWidget {
           ),
           const Gap(9),
           const buttoms(),
+
+          Row(
+            children: [
+              Consumer<Hivecontroller>(
+                builder: (context, myType, child) {
+                  if (myType.temprecord != null) {
+                    return SizedBox(
+                      height: 300,
+                      width: 500,
+                      child: PdfPreview(
+                        build: (format) => generatePdf(context, myType.temprecord!),
+                      ),
+                    );
+                  } else {
+                    return const SizedBox();
+                  }
+                },
+              ),
+      
+              Consumer<Hivecontroller>(
+                builder: (context, myType, child) {
+                  if (myType.temprecord!=null&&myType.temprecord!.firstShotpic.isNotEmpty) {
+                    return Column(children: myType.temprecord!.firstShotpic.map((e)=> Image.memory(
+                         utf8.encode(e),
+                          width: MediaQuery.of(context).size.width * .22,
+                          height: 230,
+                          fit: BoxFit.fill,
+                        )).toList(),);
+                  } else {
+                    return const SizedBox();
+                  }
+            
+                },
+              ),
+              Consumer<Hivecontroller>(
+                builder: (context, myType, child) {
+                  if (myType.temprecord!=null&&myType.temprecord!.secondShotpic.isNotEmpty) {
+                    return Column(children: myType.temprecord!.secondShotpic.map((e)=> Image.memory(
+                         utf8.encode(e),
+                          width: MediaQuery.of(context).size.width * .22,
+                          height: 230,
+                          fit: BoxFit.fill,
+                        )).toList(),);
+                  } else {
+                    return const SizedBox();
+                  }
+            
+                },
+              ),
+         
+            ],
+          )
         ],
       ),
     );

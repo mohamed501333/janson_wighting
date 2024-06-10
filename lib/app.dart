@@ -20,6 +20,9 @@ extension FD on String{
   int to_int(){
     return int.parse(this);
    }
+  double to_double(){
+    return double.parse(this);
+   }
 }
 
 
