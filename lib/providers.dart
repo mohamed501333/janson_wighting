@@ -78,7 +78,8 @@ class Hivecontroller extends ChangeNotifier {
   initHive() async {
     var path = Directory.current.path;
     Hive.init(path);
-    await Hive.openBox('records').then((h) {
+    await Hive.openBox('records')
+    .then((h) {
       allrecords.addAll(Hive.box('records')
           .values
           .map((v) => WieghtTecketMOdel.fromJson(v))
@@ -95,7 +96,8 @@ class Hivecontroller extends ChangeNotifier {
       });
 
       notifyListeners();
-    });
+    }
+    );
   }
   Uint8List?cam1;
   Uint8List?cam2;
@@ -126,8 +128,7 @@ class Hivecontroller extends ChangeNotifier {
         secondShot: 0,
         totalWeight: 0,
         actions: [WhigtTecketAction.create_newTicket.add],
-        firstShotpic: [],
-        secondShotpic: []);
+        firstShotpic: []);
     temprecord = record;
     Hive.box('records').put(record.wightTecket_serial, record.toJson());
     notifyListeners();

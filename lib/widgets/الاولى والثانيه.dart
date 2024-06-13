@@ -206,11 +206,12 @@ class weightInfo extends StatelessWidget {
                         .nowValu
                         .to_double();
                         if (myType.cam1!=null) {
-                           String.fromCharCodes(myType.cam1!.toList());
+                          record.firstShotpic=myType.cam1!.toList();
                         }
-                        if (myType.cam2!=null) {
-                           String.fromCharCodes(myType.cam2!.toList());
-                        }
+                        // if (myType.cam2!=null) {
+                        //   utf8.decode(myType.cam2!.toList());
+                        //    String.fromCharCodes(myType.cam2!.toList());
+                        // }
                     record.carNum = myType.carnumcontroller.text.to_int();
                     record.driverName = context
                         .read<Hivecontroller>()

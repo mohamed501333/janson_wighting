@@ -5,10 +5,6 @@ import 'package:janson_wighting/domain/enums.dart';
 import 'package:janson_wighting/domain/models/models.dart';
 import 'package:pdf/pdf.dart' as pw;
 import 'package:pdf/widgets.dart';
-import 'dart:typed_data';
-
-import 'package:printing/printing.dart';
-
 
 Future<Uint8List> generatePdf(
     m.BuildContext c, WieghtTecketMOdel record) async {

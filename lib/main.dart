@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, camel_case_types
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -140,33 +139,33 @@ class Home extends StatelessWidget {
               Consumer<Hivecontroller>(
                 builder: (context, myType, child) {
                   if (myType.temprecord!=null&&myType.temprecord!.firstShotpic.isNotEmpty) {
-                    return Column(children: myType.temprecord!.firstShotpic.map((e)=> Image.memory(
-                         utf8.encode(e),
-                          width: MediaQuery.of(context).size.width * .22,
-                          height: 230,
+                    return Image.memory(
+                          Uint8List.fromList(myType.temprecord!.firstShotpic),
+                          width: 500,
+                          height: 400,
                           fit: BoxFit.fill,
-                        )).toList(),);
+                        );
                   } else {
                     return const SizedBox();
                   }
             
                 },
               ),
-              Consumer<Hivecontroller>(
-                builder: (context, myType, child) {
-                  if (myType.temprecord!=null&&myType.temprecord!.secondShotpic.isNotEmpty) {
-                    return Column(children: myType.temprecord!.secondShotpic.map((e)=> Image.memory(
-                         utf8.encode(e),
-                          width: MediaQuery.of(context).size.width * .22,
-                          height: 230,
-                          fit: BoxFit.fill,
-                        )).toList(),);
-                  } else {
-                    return const SizedBox();
-                  }
+              // Consumer<Hivecontroller>(
+              //   builder: (context, myType, child) {
+              //     if (myType.temprecord!=null&&myType.temprecord!.secondShotpic.isNotEmpty) {
+              //       return Column(children: myType.temprecord!.secondShotpic.map((e)=> Image.memory(
+              //            utf8.encode(e),
+              //             width: MediaQuery.of(context).size.width * .22,
+              //             height: 230,
+              //             fit: BoxFit.fill,
+              //           )).toList(),);
+              //     } else {
+              //       return const SizedBox();
+              //     }
             
-                },
-              ),
+              //   },
+              // ),
          
             ],
           )

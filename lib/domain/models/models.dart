@@ -16,8 +16,7 @@ class WieghtTecketMOdel {
   double firstShot;
   double secondShot;
   double totalWeight;
-  List<String> firstShotpic;
-  List<String> secondShotpic;
+  List<int> firstShotpic;
   List<ActionModel> actions;
   WieghtTecketMOdel({
     required this.wightTecket_ID,
@@ -33,10 +32,9 @@ class WieghtTecketMOdel {
     required this.secondShot,
     required this.totalWeight,
     required this.firstShotpic,
-    required this.secondShotpic,
     required this.actions,
   });
-
+ 
 
   WieghtTecketMOdel copyWith({
     int? wightTecket_ID,
@@ -51,8 +49,7 @@ class WieghtTecketMOdel {
     double? firstShot,
     double? secondShot,
     double? totalWeight,
-    List<String>? firstShotpic,
-    List<String>? secondShotpic,
+    List<int>? firstShotpic,
     List<ActionModel>? actions,
   }) {
     return WieghtTecketMOdel(
@@ -69,7 +66,6 @@ class WieghtTecketMOdel {
       secondShot: secondShot ?? this.secondShot,
       totalWeight: totalWeight ?? this.totalWeight,
       firstShotpic: firstShotpic ?? this.firstShotpic,
-      secondShotpic: secondShotpic ?? this.secondShotpic,
       actions: actions ?? this.actions,
     );
   }
@@ -89,7 +85,6 @@ class WieghtTecketMOdel {
       'secondShot': secondShot,
       'totalWeight': totalWeight,
       'firstShotpic': firstShotpic,
-      'secondShotpic': secondShotpic,
       'actions': actions.map((x) => x.toMap()).toList(),
     };
   }
@@ -108,8 +103,7 @@ class WieghtTecketMOdel {
       firstShot: map['firstShot'] as double,
       secondShot: map['secondShot'] as double,
       totalWeight: map['totalWeight'] as double,
-      firstShotpic: List<String>.from((map['firstShotpic'] as List<dynamic>)),
-      secondShotpic: List<String>.from((map['secondShotpic'] as List<dynamic>)),
+      firstShotpic: List<int>.from((map['firstShotpic'] as List<dynamic>)),
       actions: List<ActionModel>.from((map['actions'] as List<dynamic>).map<ActionModel>((x) => ActionModel.fromMap(x as Map<String,dynamic>),),),
     );
   }
@@ -120,7 +114,7 @@ class WieghtTecketMOdel {
 
   @override
   String toString() {
-    return 'WieghtTecketMOdel(wightTecket_ID: $wightTecket_ID, wightTecket_serial: $wightTecket_serial, stockRequsition_ID: $stockRequsition_ID, stockRequsition_serial: $stockRequsition_serial, carNum: $carNum, customerName: $customerName, driverName: $driverName, prodcutName: $prodcutName, notes: $notes, firstShot: $firstShot, secondShot: $secondShot, totalWeight: $totalWeight, firstShotpic: $firstShotpic, secondShotpic: $secondShotpic, actions: $actions)';
+    return 'WieghtTecketMOdel(wightTecket_ID: $wightTecket_ID, wightTecket_serial: $wightTecket_serial, stockRequsition_ID: $stockRequsition_ID, stockRequsition_serial: $stockRequsition_serial, carNum: $carNum, customerName: $customerName, driverName: $driverName, prodcutName: $prodcutName, notes: $notes, firstShot: $firstShot, secondShot: $secondShot, totalWeight: $totalWeight, firstShotpic: $firstShotpic, actions: $actions)';
   }
 
   @override
@@ -141,7 +135,6 @@ class WieghtTecketMOdel {
       other.secondShot == secondShot &&
       other.totalWeight == totalWeight &&
       listEquals(other.firstShotpic, firstShotpic) &&
-      listEquals(other.secondShotpic, secondShotpic) &&
       listEquals(other.actions, actions);
   }
 
@@ -160,7 +153,6 @@ class WieghtTecketMOdel {
       secondShot.hashCode ^
       totalWeight.hashCode ^
       firstShotpic.hashCode ^
-      secondShotpic.hashCode ^
       actions.hashCode;
   }
 }
