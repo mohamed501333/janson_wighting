@@ -128,7 +128,11 @@ class Hivecontroller extends ChangeNotifier {
         secondShot: 0,
         totalWeight: 0,
         actions: [WhigtTecketAction.create_newTicket.add],
-        firstShotpic: []);
+        firstShotpiccam1: [],
+         firstShotpiccam2: [],
+         secondShotpiccam1: [],
+         secondShotpiccam2: []
+        );
     temprecord = record;
     Hive.box('records').put(record.wightTecket_serial, record.toJson());
     notifyListeners();

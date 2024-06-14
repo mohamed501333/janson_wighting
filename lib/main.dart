@@ -118,55 +118,104 @@ class Home extends StatelessWidget {
           const Gap(9),
           const buttoms(),
 
-          Row(
+          Column(
             children: [
-              Consumer<Hivecontroller>(
-                builder: (context, myType, child) {
-                  if (myType.temprecord != null) {
-                    return SizedBox(
-                      height: 300,
-                      width: 500,
-                      child: PdfPreview(
-                        build: (format) => generatePdf(context, myType.temprecord!),
-                      ),
-                    );
-                  } else {
-                    return const SizedBox();
-                  }
-                },
+                 
+                        Consumer<Hivecontroller>(
+            builder: (context, myType, child) {
+              if (myType.temprecord != null) {
+                return SizedBox(
+                  height: 300,
+                  width: 500,
+                  child: PdfPreview(
+                    build: (format) => generatePdf(context, myType.temprecord!),
+                  ),
+                );
+              } else {
+                return const SizedBox();
+              }
+            },
+          ),
+                
+          
+                               const Text("عند الوزن الاول",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Consumer<Hivecontroller>(
+                    builder: (context, myType, child) {
+                      if (myType.temprecord!=null&&myType.temprecord!.firstShotpiccam1.isNotEmpty) {
+                        return Image.memory(
+                              Uint8List.fromList(myType.temprecord!.firstShotpiccam1),
+                              width: 500,
+                              height: 400,
+                              fit: BoxFit.fill,
+                            );
+                      } else {
+                        return const SizedBox();
+                      }
+                              
+                    },
+                  ),
+                  Consumer<Hivecontroller>(
+                    builder: (context, myType, child) {
+                      if (myType.temprecord!=null&&myType.temprecord!.firstShotpiccam2.isNotEmpty) {
+                        return Image.memory(
+                              Uint8List.fromList(myType.temprecord!.firstShotpiccam2),
+                              width: 500,
+                              height: 400,
+                              fit: BoxFit.fill,
+                            );
+                      } else {
+                        return const SizedBox();
+                      }
+                              
+                    },
+                  ),
+                ],
               ),
-      
-              Consumer<Hivecontroller>(
-                builder: (context, myType, child) {
-                  if (myType.temprecord!=null&&myType.temprecord!.firstShotpic.isNotEmpty) {
-                    return Image.memory(
-                          Uint8List.fromList(myType.temprecord!.firstShotpic),
-                          width: 500,
-                          height: 400,
-                          fit: BoxFit.fill,
-                        );
-                  } else {
-                    return const SizedBox();
-                  }
-            
-                },
+                     
+                               const Text("عند الوزن الثانى",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),),
+          
+              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+
+                children: [
+                  
+                  Consumer<Hivecontroller>(
+                    builder: (context, myType, child) {
+                      if (myType.temprecord!=null&&myType.temprecord!.secondShotpiccam1.isNotEmpty) {
+                        return Image.memory(
+                              Uint8List.fromList(myType.temprecord!.secondShotpiccam1),
+                              width: 500,
+                              height: 400,
+                              fit: BoxFit.fill,
+                            );
+                      } else {
+                        return const SizedBox();
+                      }
+                              
+                    },
+                  ),
+                  Consumer<Hivecontroller>(
+                    builder: (context, myType, child) {
+                      if (myType.temprecord!=null&&myType.temprecord!.secondShotpiccam2.isNotEmpty) {
+                        return Image.memory(
+                              Uint8List.fromList(myType.temprecord!.secondShotpiccam2),
+                              width: 500,
+                              height: 400,
+                              fit: BoxFit.fill,
+                            );
+                      } else {
+                        return const SizedBox();
+                      }
+                              
+                    },
+                  ),
+                ],
               ),
-              // Consumer<Hivecontroller>(
-              //   builder: (context, myType, child) {
-              //     if (myType.temprecord!=null&&myType.temprecord!.secondShotpic.isNotEmpty) {
-              //       return Column(children: myType.temprecord!.secondShotpic.map((e)=> Image.memory(
-              //            utf8.encode(e),
-              //             width: MediaQuery.of(context).size.width * .22,
-              //             height: 230,
-              //             fit: BoxFit.fill,
-              //           )).toList(),);
-              //     } else {
-              //       return const SizedBox();
-              //     }
-            
-              //   },
-              // ),
-         
+                     
             ],
           )
         ],

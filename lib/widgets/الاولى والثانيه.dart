@@ -111,7 +111,12 @@ class weightInfo extends StatelessWidget {
                     myType.temprecord!.firstShot;
             record.actions.add(WhigtTecketAction.create_secondWhigt.add);
             myType.canedit2 = false;
-
+               if (myType.cam1!=null) {
+                          record.secondShotpiccam1=myType.cam1!.toList();
+                        }
+                        if (myType.cam2!=null) {
+                          record.secondShotpiccam2=myType.cam2!.toList();
+                        }
             myType.updateRecord(record);
           },
           child: Container(
@@ -206,12 +211,12 @@ class weightInfo extends StatelessWidget {
                         .nowValu
                         .to_double();
                         if (myType.cam1!=null) {
-                          record.firstShotpic=myType.cam1!.toList();
+                          record.firstShotpiccam1=myType.cam1!.toList();
                         }
-                        // if (myType.cam2!=null) {
-                        //   utf8.decode(myType.cam2!.toList());
-                        //    String.fromCharCodes(myType.cam2!.toList());
-                        // }
+                        if (myType.cam2!=null) {
+                          record.firstShotpiccam2=myType.cam2!.toList();
+                        }
+                 
                     record.carNum = myType.carnumcontroller.text.to_int();
                     record.driverName = context
                         .read<Hivecontroller>()

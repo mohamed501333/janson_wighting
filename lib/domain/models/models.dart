@@ -16,7 +16,10 @@ class WieghtTecketMOdel {
   double firstShot;
   double secondShot;
   double totalWeight;
-  List<int> firstShotpic;
+  List<int> firstShotpiccam1;
+  List<int> firstShotpiccam2;
+  List<int> secondShotpiccam1;
+  List<int> secondShotpiccam2;
   List<ActionModel> actions;
   WieghtTecketMOdel({
     required this.wightTecket_ID,
@@ -31,10 +34,13 @@ class WieghtTecketMOdel {
     required this.firstShot,
     required this.secondShot,
     required this.totalWeight,
-    required this.firstShotpic,
+    required this.firstShotpiccam1,
+    required this.firstShotpiccam2,
+    required this.secondShotpiccam1,
+    required this.secondShotpiccam2,
     required this.actions,
   });
- 
+
 
   WieghtTecketMOdel copyWith({
     int? wightTecket_ID,
@@ -49,7 +55,10 @@ class WieghtTecketMOdel {
     double? firstShot,
     double? secondShot,
     double? totalWeight,
-    List<int>? firstShotpic,
+    List<int>? firstShotpiccam1,
+    List<int>? firstShotpiccam2,
+    List<int>? secondShotpiccam1,
+    List<int>? secondShotpiccam2,
     List<ActionModel>? actions,
   }) {
     return WieghtTecketMOdel(
@@ -65,7 +74,10 @@ class WieghtTecketMOdel {
       firstShot: firstShot ?? this.firstShot,
       secondShot: secondShot ?? this.secondShot,
       totalWeight: totalWeight ?? this.totalWeight,
-      firstShotpic: firstShotpic ?? this.firstShotpic,
+      firstShotpiccam1: firstShotpiccam1 ?? this.firstShotpiccam1,
+      firstShotpiccam2: firstShotpiccam2 ?? this.firstShotpiccam2,
+      secondShotpiccam1: secondShotpiccam1 ?? this.secondShotpiccam1,
+      secondShotpiccam2: secondShotpiccam2 ?? this.secondShotpiccam2,
       actions: actions ?? this.actions,
     );
   }
@@ -84,7 +96,10 @@ class WieghtTecketMOdel {
       'firstShot': firstShot,
       'secondShot': secondShot,
       'totalWeight': totalWeight,
-      'firstShotpic': firstShotpic,
+      'firstShotpiccam1': firstShotpiccam1,
+      'firstShotpiccam2': firstShotpiccam2,
+      'secondShotpiccam1': secondShotpiccam1,
+      'secondShotpiccam2': secondShotpiccam2,
       'actions': actions.map((x) => x.toMap()).toList(),
     };
   }
@@ -103,7 +118,10 @@ class WieghtTecketMOdel {
       firstShot: map['firstShot'] as double,
       secondShot: map['secondShot'] as double,
       totalWeight: map['totalWeight'] as double,
-      firstShotpic: List<int>.from((map['firstShotpic'] as List<dynamic>)),
+      firstShotpiccam1: List<int>.from((map['firstShotpiccam1'] as List<dynamic>)),
+      firstShotpiccam2: List<int>.from((map['firstShotpiccam2'] as List<dynamic>)),
+      secondShotpiccam1: List<int>.from((map['secondShotpiccam1'] as List<dynamic>)),
+      secondShotpiccam2: List<int>.from((map['secondShotpiccam2'] as List<dynamic>)),
       actions: List<ActionModel>.from((map['actions'] as List<dynamic>).map<ActionModel>((x) => ActionModel.fromMap(x as Map<String,dynamic>),),),
     );
   }
@@ -114,7 +132,7 @@ class WieghtTecketMOdel {
 
   @override
   String toString() {
-    return 'WieghtTecketMOdel(wightTecket_ID: $wightTecket_ID, wightTecket_serial: $wightTecket_serial, stockRequsition_ID: $stockRequsition_ID, stockRequsition_serial: $stockRequsition_serial, carNum: $carNum, customerName: $customerName, driverName: $driverName, prodcutName: $prodcutName, notes: $notes, firstShot: $firstShot, secondShot: $secondShot, totalWeight: $totalWeight, firstShotpic: $firstShotpic, actions: $actions)';
+    return 'WieghtTecketMOdel(wightTecket_ID: $wightTecket_ID, wightTecket_serial: $wightTecket_serial, stockRequsition_ID: $stockRequsition_ID, stockRequsition_serial: $stockRequsition_serial, carNum: $carNum, customerName: $customerName, driverName: $driverName, prodcutName: $prodcutName, notes: $notes, firstShot: $firstShot, secondShot: $secondShot, totalWeight: $totalWeight, firstShotpiccam1: $firstShotpiccam1, firstShotpiccam2: $firstShotpiccam2, secondShotpiccam1: $secondShotpiccam1, secondShotpiccam2: $secondShotpiccam2, actions: $actions)';
   }
 
   @override
@@ -134,7 +152,10 @@ class WieghtTecketMOdel {
       other.firstShot == firstShot &&
       other.secondShot == secondShot &&
       other.totalWeight == totalWeight &&
-      listEquals(other.firstShotpic, firstShotpic) &&
+      listEquals(other.firstShotpiccam1, firstShotpiccam1) &&
+      listEquals(other.firstShotpiccam2, firstShotpiccam2) &&
+      listEquals(other.secondShotpiccam1, secondShotpiccam1) &&
+      listEquals(other.secondShotpiccam2, secondShotpiccam2) &&
       listEquals(other.actions, actions);
   }
 
@@ -152,7 +173,10 @@ class WieghtTecketMOdel {
       firstShot.hashCode ^
       secondShot.hashCode ^
       totalWeight.hashCode ^
-      firstShotpic.hashCode ^
+      firstShotpiccam1.hashCode ^
+      firstShotpiccam2.hashCode ^
+      secondShotpiccam1.hashCode ^
+      secondShotpiccam2.hashCode ^
       actions.hashCode;
   }
 }
