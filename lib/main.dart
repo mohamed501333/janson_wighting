@@ -18,13 +18,19 @@ void main() {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(
+        create: (context) => NetwordescoverController()..streamServerStutues(),
+      ),
+      ChangeNotifierProvider(
         create: (context) => ImcomingValueporvider()
           ..port
           ..initport()
           ..stream(),
       ),
       ChangeNotifierProvider(
-        create: (context) => Hivecontroller()..initHive(),
+        create: (context) => Hivecontroller()
+          ..initHive()
+          ..cuttingOrders_From_Server()
+          ..syncToServer(),
       ),
     ],
     child: const MyApp(),
@@ -43,11 +49,49 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       home: Scaffold(
         appBar: AppBar(
-          title: const Center(
-              child: Text(
-            "يانسن فوم",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          )),
+          actions: [],
+          title: Row(
+            children: [
+              Consumer<NetwordescoverController>(
+                builder: (context, myType, child) {
+                  return Row(
+                    children: [
+                      const Text(
+                        "server stutues :",
+                        style: TextStyle(
+                            fontSize: 17,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      const Gap(5),
+                      Container(
+                        height: 12,
+                        width: 12,
+                        decoration: BoxDecoration(
+                          color: myType.isServerOnline
+                              ? const Color.fromARGB(255, 111, 255, 116)
+                              : Colors.red,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      const Gap(5),
+                      Text(
+                        myType.isServerOnline ? 'online' : "offline",
+                        style:
+                            const TextStyle(fontSize: 18, color: Colors.black),
+                      ),
+                    ],
+                  );
+                },
+              ),
+              Gap(MediaQuery.of(context).size.width * .3),
+              const Center(
+                  child: Text(
+                "يانسن فوم",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              )),
+            ],
+          ),
           backgroundColor: const Color.fromARGB(255, 9, 116, 238),
         ),
         backgroundColor: const Color.fromARGB(255, 10, 102, 206),
@@ -65,6 +109,11 @@ class Home extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
+          Consumer<NetwordescoverController>(
+            builder: (context, myType, child) {
+              return const SizedBox();
+            },
+          ),
           //black item
           const WhightInput(),
 
@@ -120,102 +169,110 @@ class Home extends StatelessWidget {
 
           Column(
             children: [
-                 
-                        Consumer<Hivecontroller>(
-            builder: (context, myType, child) {
-              if (myType.temprecord != null) {
-                return SizedBox(
-                  height: 300,
-                  width: 500,
-                  child: PdfPreview(
-                    build: (format) => generatePdf(context, myType.temprecord!),
-                  ),
-                );
-              } else {
-                return const SizedBox();
-              }
-            },
-          ),
-                
-          
-                               const Text("عند الوزن الاول",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),),
-
+              Consumer<Hivecontroller>(
+                builder: (context, myType, child) {
+                  if (myType.temprecord != null) {
+                    return SizedBox(
+                      height: 300,
+                      width: 500,
+                      child: PdfPreview(
+                        build: (format) =>
+                            generatePdf(context, myType.temprecord!),
+                      ),
+                    );
+                  } else {
+                    return const SizedBox();
+                  }
+                },
+              ),
+              const Text(
+                "عند الوزن الاول",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Consumer<Hivecontroller>(
                     builder: (context, myType, child) {
-                      if (myType.temprecord!=null&&myType.temprecord!.firstShotpiccam1.isNotEmpty) {
+                      if (myType.temprecord != null &&
+                          myType.temprecord!.firstShotpiccam1.isNotEmpty) {
                         return Image.memory(
-                              Uint8List.fromList(myType.temprecord!.firstShotpiccam1),
-                              width: 500,
-                              height: 400,
-                              fit: BoxFit.fill,
-                            );
+                          Uint8List.fromList(
+                              myType.temprecord!.firstShotpiccam1),
+                          width: 500,
+                          height: 400,
+                          fit: BoxFit.fill,
+                        );
                       } else {
                         return const SizedBox();
                       }
-                              
                     },
                   ),
                   Consumer<Hivecontroller>(
                     builder: (context, myType, child) {
-                      if (myType.temprecord!=null&&myType.temprecord!.firstShotpiccam2.isNotEmpty) {
+                      if (myType.temprecord != null &&
+                          myType.temprecord!.firstShotpiccam2.isNotEmpty) {
                         return Image.memory(
-                              Uint8List.fromList(myType.temprecord!.firstShotpiccam2),
-                              width: 500,
-                              height: 400,
-                              fit: BoxFit.fill,
-                            );
+                          Uint8List.fromList(
+                              myType.temprecord!.firstShotpiccam2),
+                          width: 500,
+                          height: 400,
+                          fit: BoxFit.fill,
+                        );
                       } else {
                         return const SizedBox();
                       }
-                              
                     },
                   ),
                 ],
               ),
-                     
-                               const Text("عند الوزن الثانى",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),),
-          
+              const Text(
+                "عند الوزن الثانى",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              ),
               Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  
                   Consumer<Hivecontroller>(
                     builder: (context, myType, child) {
-                      if (myType.temprecord!=null&&myType.temprecord!.secondShotpiccam1.isNotEmpty) {
+                      if (myType.temprecord != null &&
+                          myType.temprecord!.secondShotpiccam1.isNotEmpty) {
                         return Image.memory(
-                              Uint8List.fromList(myType.temprecord!.secondShotpiccam1),
-                              width: 500,
-                              height: 400,
-                              fit: BoxFit.fill,
-                            );
+                          Uint8List.fromList(
+                              myType.temprecord!.secondShotpiccam1),
+                          width: 500,
+                          height: 400,
+                          fit: BoxFit.fill,
+                        );
                       } else {
                         return const SizedBox();
                       }
-                              
                     },
                   ),
                   Consumer<Hivecontroller>(
                     builder: (context, myType, child) {
-                      if (myType.temprecord!=null&&myType.temprecord!.secondShotpiccam2.isNotEmpty) {
+                      if (myType.temprecord != null &&
+                          myType.temprecord!.secondShotpiccam2.isNotEmpty) {
                         return Image.memory(
-                              Uint8List.fromList(myType.temprecord!.secondShotpiccam2),
-                              width: 500,
-                              height: 400,
-                              fit: BoxFit.fill,
-                            );
+                          Uint8List.fromList(
+                              myType.temprecord!.secondShotpiccam2),
+                          width: 500,
+                          height: 400,
+                          fit: BoxFit.fill,
+                        );
                       } else {
                         return const SizedBox();
                       }
-                              
                     },
                   ),
                 ],
               ),
-                     
             ],
           )
         ],

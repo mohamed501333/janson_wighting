@@ -7,11 +7,14 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_libserialport/flutter_libserialport.dart';
 import 'dart:io';
+import 'package:http/http.dart' as http;
 
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:janson_wighting/domain/enums.dart';
 import 'package:janson_wighting/domain/models/models.dart';
+import 'package:network_discovery/network_discovery.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 class ImcomingValueporvider extends ChangeNotifier {
   var port = SerialPort('COM1');
@@ -27,15 +30,6 @@ class ImcomingValueporvider extends ChangeNotifier {
     port.config.cts = 0;
     port.config.dsr = 0;
     port.openReadWrite();
-  }
-
-  var x = 0;
-  Future<void> sendMessage() async {
-    for (var i = 0; i < 500; i++) {
-      await Future.delayed(const Duration(milliseconds: 10));
-      port.write(Uint8List.fromList([...i.toString().codeUnits, 10]));
-      // print('Writen Bytes: $i');
-    }
   }
 
   var nowValu = "0";
@@ -55,7 +49,34 @@ class ImcomingValueporvider extends ChangeNotifier {
   }
 }
 
+String ip = '';
+
 class Hivecontroller extends ChangeNotifier {
+  static late WebSocketChannel channel;
+  List<WieghtTecketMOdel> allrecords = [];
+  bool initialized = false;
+
+  cuttingOrders_From_Server() {
+    if (ip != '' && initialized == false) {
+      initialized = true;
+      Uri uri2 = Uri.parse('ws://$ip:8080/biscol/ws')
+          .replace(queryParameters: {'username': 'biscolpc'});
+      channel = WebSocketChannel.connect(uri2);
+      channel.stream.forEach((u) {
+        WieghtTecketMOdel item = WieghtTecketMOdel.fromJson(u);
+        var index = allrecords
+            .map((e) => e.wightTecket_ID)
+            .toList()
+            .indexOf(item.wightTecket_ID);
+        if (index == -1) {
+          allrecords.removeAt(index);
+          allrecords.add(item);
+        }
+        notifyListeners();
+      });
+    }
+  }
+
   WieghtTecketMOdel? temprecord;
   String v = '';
   bool canedit1 = true;
@@ -78,37 +99,79 @@ class Hivecontroller extends ChangeNotifier {
   initHive() async {
     var path = Directory.current.path;
     Hive.init(path);
-    await Hive.openBox('records')
-    .then((h) {
-      allrecords.addAll(Hive.box('records')
-          .values
-          .map((v) => WieghtTecketMOdel.fromJson(v))
-          .where((r) =>
-              r.actions.where((o) => o.action == "archive_tecket").isEmpty));
+    await Hive.openBox('records').then((h) async {
+      Hive.box('records').clear();
 
-      Hive.box('records').watch().forEach((r) {
-        allrecords.clear();
+      if (ip != '') {
+        // get for the first time
+        Uri uri = Uri.http('$ip:8080', '/biscol');
+        var response = await http.get(uri);
+        if (response.statusCode == 200) {
+          Hive.box('records').clear();
+          var a = json.decode(response.body) as List;
+          for (var element in a) {
+            var item = WieghtTecketMOdel.fromMap(element);
+            Hive.box('records')
+                .put(item.wightTecket_ID.toString(), item.toJson());
+            allrecords.add(item);
+          }
+        }
+
+        Hive.box('records').watch().forEach((r) {
+          allrecords.clear();
+          allrecords.addAll(Hive.box('records')
+              .values
+              .map((v) => WieghtTecketMOdel.fromJson(v))
+              .where((r) => r.actions
+                  .where((o) => o.action == "archive_tecket")
+                  .isEmpty));
+        });
+
+        notifyListeners();
+      } else {
         allrecords.addAll(Hive.box('records')
             .values
             .map((v) => WieghtTecketMOdel.fromJson(v))
             .where((r) =>
                 r.actions.where((o) => o.action == "archive_tecket").isEmpty));
-      });
 
-      notifyListeners();
-    }
-    );
+        Hive.box('records').watch().forEach((r) {
+          allrecords.clear();
+          allrecords.addAll(Hive.box('records')
+              .values
+              .map((v) => WieghtTecketMOdel.fromJson(v))
+              .where((r) => r.actions
+                  .where((o) => o.action == "archive_tecket")
+                  .isEmpty));
+        });
+
+        notifyListeners();
+      }
+    });
   }
-  Uint8List?cam1;
-  Uint8List?cam2;
-  // var encoded = utf8.encode();
-  // var decoded = utf8.decode();
-  List<WieghtTecketMOdel> allrecords = [];
-// String s = new String.fromCharCodes(inputAsUint8List);
-// var outputAsUint8List = new Uint8List.fromList(s.codeUnits);
+
+  syncToServer() {
+    Timer.periodic(const Duration(seconds: 1), (t) {
+      if (initialized == false) {
+        cuttingOrders_From_Server();
+      }
+      if (ip != '') {
+        for (var item in allrecords.where((test) => test.synced == false)) {
+          item.synced = true;
+          channel.sink.add(item.toJson());
+        }
+      }
+    });
+  }
+
+  Uint8List? cam1;
+  Uint8List? cam2;
+
   addNewRecord() {
     clearfields();
     var record = WieghtTecketMOdel(
+        lastupdated: DateTime.now().microsecondsSinceEpoch,
+        synced: false,
         wightTecket_ID: DateTime.now().microsecondsSinceEpoch,
         wightTecket_serial: allrecords.isEmpty
             ? 1
@@ -129,12 +192,11 @@ class Hivecontroller extends ChangeNotifier {
         totalWeight: 0,
         actions: [WhigtTecketAction.create_newTicket.add],
         firstShotpiccam1: [],
-         firstShotpiccam2: [],
-         secondShotpiccam1: [],
-         secondShotpiccam2: []
-        );
+        firstShotpiccam2: [],
+        secondShotpiccam1: [],
+        secondShotpiccam2: []);
     temprecord = record;
-    Hive.box('records').put(record.wightTecket_serial, record.toJson());
+    Hive.box('records').put(record.wightTecket_ID.toString(), record.toJson());
     notifyListeners();
   }
 
@@ -149,17 +211,43 @@ class Hivecontroller extends ChangeNotifier {
   }
 
   updateRecord(WieghtTecketMOdel record) {
-    Hive.box('records').put(record.wightTecket_serial, record.toJson());
+    record.synced = false;
+    Hive.box('records').put(record.wightTecket_ID.toString(), record.toJson());
     notifyListeners();
   }
 
   removeRecord(WieghtTecketMOdel record) {
-    Hive.box('records').put(record.wightTecket_serial, record.toJson());
+    record.synced = false;
+
+    Hive.box('records').put(record.wightTecket_ID.toString(), record.toJson());
 
     notifyListeners();
   }
 
   Refrech_UI() {
     notifyListeners();
+  }
+}
+
+class NetwordescoverController extends ChangeNotifier {
+  bool isServerOnline = false;
+
+  streamServerStutues() {
+    Timer.periodic(const Duration(seconds: 1), (t) async {
+      var serverisofline =
+          await NetworkDiscovery.discover('192.168.1', 8080).isEmpty;
+      NetworkDiscovery.discover('192.168.1', 8080).forEach((e) {
+        if (ip != e.ip) {
+          ip = e.ip;
+          notifyListeners();
+        }
+        print(e.ip);
+      });
+
+      if (!serverisofline != isServerOnline) {
+        isServerOnline = !serverisofline;
+        notifyListeners();
+      }
+    });
   }
 }

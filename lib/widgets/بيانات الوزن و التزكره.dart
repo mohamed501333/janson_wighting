@@ -10,7 +10,6 @@ import 'package:janson_wighting/domain/enums.dart';
 import 'package:janson_wighting/domain/models/models.dart';
 import 'package:janson_wighting/providers.dart';
 
-
 GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
 class wightTecket extends StatelessWidget {
@@ -22,121 +21,124 @@ class wightTecket extends StatelessWidget {
     return Consumer<Hivecontroller>(
       builder: (context, myType, child) {
         return Container(
-      decoration: BoxDecoration(
-        border: Border.all(),
-        color: const Color.fromARGB(255, 10, 102, 206),
-        borderRadius: BorderRadius.circular(30),
-        boxShadow: [
-          BoxShadow(
-            color: const Color.fromARGB(255, 129, 136, 202)
-                .withOpacity(0.5), //color of shadow
-            spreadRadius: 1, //spread radius
-            blurRadius: 1, // blur radius
-            offset: const Offset(0, 1), // changes position of shadow
-          ),
-        ],
-      ),
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width * .18,
-        height: 410,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(4)),
-                    color: Color.fromARGB(255, 3, 202, 93)),
-                child: const Padding(
-                  padding: EdgeInsets.all(4.0),
-                  child: Text(
-                    "بيانات تذكرة الوزن",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
-                  ),
-                ),
+          decoration: BoxDecoration(
+            border: Border.all(),
+            color: const Color.fromARGB(255, 10, 102, 206),
+            borderRadius: BorderRadius.circular(30),
+            boxShadow: [
+              BoxShadow(
+                color: const Color.fromARGB(255, 129, 136, 202)
+                    .withOpacity(0.5), //color of shadow
+                spreadRadius: 1, //spread radius
+                blurRadius: 1, // blur radius
+                offset: const Offset(0, 1), // changes position of shadow
               ),
-              const SizedBox(
-                height: 5,
-              ),
-              SingleChildScrollView(
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    children: [
-                      customField(
-                        enabled: myType.canedit1,
-                        validator: Validation.validateothers,
-                        controller:
-                            context.read<Hivecontroller>().carnumcontroller,
-                        name: "رقم السياره",
-                        sugestions: const [
-                          "mohamed",
-                          "ahmed",
-                          "mohamed",
-                          "ahmed",
-                          'samy'
-                        ],
-                      ),
-                      const Gap(5),
-                      customField(
-                        controller:
-                            context.read<Hivecontroller>().drivernamecontroller,
-                        name: "اسم السائق",
-                        sugestions: const [
-                          "mohamed",
-                          "ahmed",
-                          "mohamed",
-                          "ahmed",
-                          'samy'
-                        ],
-                      ),
-                      const Gap(5),
-                      customField(
-                        controller:
-                            context.read<Hivecontroller>().customercontroller,
-                        name: "العميل",
-                        sugestions: const [
-                          "mohamed",
-                          "ahmed",
-                          "mohamed",
-                          "ahmed",
-                          'samy'
-                        ],
-                      ),
-                      const Gap(5),
-                      customField(
-                        controller:
-                            context.read<Hivecontroller>().itemcontroller,
-                        name: "الصنف",
-                        sugestions: const [
-                          "mohamed",
-                          "ahmed",
-                          "mohamed",
-                          "ahmed",
-                          'samy'
-                        ],
-                      ),
-                      const Gap(5),
-                      customField(
-                        controller:
-                            context.read<Hivecontroller>().notescontroller,
-                        name: "ملاحظات",
-                        sugestions: const [
-                          "mohamed",
-                          "ahmed",
-                          "mohamed",
-                          "ahmed",
-                          'samy'
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              )
             ],
           ),
-        ),
-      ),
-    );
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * .18,
+            height: 410,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                        color: Color.fromARGB(255, 3, 202, 93)),
+                    child: const Padding(
+                      padding: EdgeInsets.all(4.0),
+                      child: Text(
+                        "بيانات تذكرة الوزن",
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w700),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  SingleChildScrollView(
+                    child: Form(
+                      key: formKey,
+                      child: Column(
+                        children: [
+                          customField(
+                            enabled: myType.canedit1,
+                            validator: Validation.validateothers,
+                            controller:
+                                context.read<Hivecontroller>().carnumcontroller,
+                            name: "رقم السياره",
+                            sugestions: const [
+                              "mohamed",
+                              "ahmed",
+                              "mohamed",
+                              "ahmed",
+                              'samy'
+                            ],
+                          ),
+                          const Gap(5),
+                          customField(
+                            controller: context
+                                .read<Hivecontroller>()
+                                .drivernamecontroller,
+                            name: "اسم السائق",
+                            sugestions: const [
+                              "mohamed",
+                              "ahmed",
+                              "mohamed",
+                              "ahmed",
+                              'samy'
+                            ],
+                          ),
+                          const Gap(5),
+                          customField(
+                            controller: context
+                                .read<Hivecontroller>()
+                                .customercontroller,
+                            name: "العميل",
+                            sugestions: const [
+                              "mohamed",
+                              "ahmed",
+                              "mohamed",
+                              "ahmed",
+                              'samy'
+                            ],
+                          ),
+                          const Gap(5),
+                          customField(
+                            controller:
+                                context.read<Hivecontroller>().itemcontroller,
+                            name: "الصنف",
+                            sugestions: const [
+                              "mohamed",
+                              "ahmed",
+                              "mohamed",
+                              "ahmed",
+                              'samy'
+                            ],
+                          ),
+                          const Gap(5),
+                          customField(
+                            controller:
+                                context.read<Hivecontroller>().notescontroller,
+                            name: "ملاحظات",
+                            sugestions: const [
+                              "mohamed",
+                              "ahmed",
+                              "mohamed",
+                              "ahmed",
+                              'samy'
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
       },
     );
   }
@@ -250,7 +252,7 @@ class NotCompletedTecket extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width*.29,
+      width: MediaQuery.of(context).size.width * .29,
       height: 410,
       decoration: BoxDecoration(
         border: Border.all(),
@@ -284,24 +286,32 @@ class NotCompletedTecket extends StatelessWidget {
           rowItemheader(),
           Consumer<Hivecontroller>(
             builder: (context, myType, child) {
-              int x=0;
-              return Center(
-                child: SizedBox(
-                  height: 334,
-                  width: MediaQuery.of(context).size.width * .50,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: myType.allrecords.where((e)=>e.actions.if_action_exist(WhigtTecketAction.create_secondWhigt.getTitle)==false).toList().reversed
-                          .map((e){ x++;
-                            return  rowItem(
-                              x: x,
-                                e: e,
-                              );})
-                          .toList(),
+              int x = 0;
+              return Expanded(
+                child: LayoutBuilder(builder: (context, constrain) {
+                  return SingleChildScrollView(
+                    child: ConstrainedBox(
+                      constraints:
+                          BoxConstraints(minHeight: constrain.maxHeight),
+                      child: Column(
+                        children: myType.allrecords
+                            .where((e) =>
+                                e.actions.if_action_exist(WhigtTecketAction
+                                    .create_secondWhigt.getTitle) ==
+                                false)
+                            .toList()
+                            .reversed
+                            .map((e) {
+                          x++;
+                          return rowItem(
+                            x: x,
+                            e: e,
+                          );
+                        }).toList(),
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                }),
               );
             },
           )
@@ -314,20 +324,22 @@ class NotCompletedTecket extends StatelessWidget {
 class rowItem extends StatelessWidget {
   const rowItem({
     Key? key,
-    required this.e, required this.x,
+    required this.e,
+    required this.x,
   }) : super(key: key);
   final WieghtTecketMOdel e;
   final int x;
 
   @override
   Widget build(BuildContext context) {
-      Color? color=x.isOdd?const Color.fromARGB(255, 3, 153, 173):Colors.cyan;
+    Color? color =
+        x.isOdd ? const Color.fromARGB(255, 3, 153, 173) : Colors.cyan;
     return IntrinsicHeight(
       child: GestureDetector(
-         onTap: (){
-          context.read<Hivecontroller>().canedit1=false;
+        onTap: () {
+          context.read<Hivecontroller>().canedit1 = false;
           context.read<Hivecontroller>().FillRecord(e);
-         },
+        },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -335,14 +347,14 @@ class rowItem extends StatelessWidget {
               child: Container(
                 width: 70,
                 constraints: const BoxConstraints.expand(),
-                decoration:
-                    BoxDecoration(border: Border.all(), color:color),
+                decoration: BoxDecoration(border: Border.all(), color: color),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Center(
                     child: Text(
                       e.wightTecket_serial.toString(),
-                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w700),
                     ),
                   ),
                 ),
@@ -352,15 +364,14 @@ class rowItem extends StatelessWidget {
               child: Container(
                 width: 70,
                 constraints: const BoxConstraints.expand(),
-                decoration: BoxDecoration(
-                    border: Border.all(),
-                    color: color),
+                decoration: BoxDecoration(border: Border.all(), color: color),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Center(
                     child: Text(
                       e.carNum.toString(),
-                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w700),
                     ),
                   ),
                 ),
@@ -370,14 +381,14 @@ class rowItem extends StatelessWidget {
               child: Container(
                 width: 100,
                 constraints: const BoxConstraints.expand(),
-                decoration:
-                    BoxDecoration(border: Border.all(), color: color),
+                decoration: BoxDecoration(border: Border.all(), color: color),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Center(
                     child: Text(
                       e.driverName.toString(),
-                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w700),
                     ),
                   ),
                 ),
@@ -387,15 +398,14 @@ class rowItem extends StatelessWidget {
               child: Container(
                 width: 150,
                 constraints: const BoxConstraints.expand(),
-                decoration: BoxDecoration(
-                    border: Border.all(),
-                    color: color),
+                decoration: BoxDecoration(border: Border.all(), color: color),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Center(
                     child: Text(
                       e.firstShot.toStringAsFixed(0),
-                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w700),
                     ),
                   ),
                 ),
@@ -409,10 +419,10 @@ class rowItem extends StatelessWidget {
 }
 
 class rowItemheader extends StatelessWidget {
-   rowItemheader({
+  rowItemheader({
     Key? key,
   }) : super(key: key);
-      Color? color= const Color.fromARGB(255, 3, 82, 84);
+  Color? color = const Color.fromARGB(255, 3, 82, 84);
   @override
   Widget build(BuildContext context) {
     return IntrinsicHeight(
@@ -423,8 +433,7 @@ class rowItemheader extends StatelessWidget {
             child: Container(
               width: 70,
               constraints: const BoxConstraints.expand(),
-              decoration:
-                  BoxDecoration(border: Border.all(), color: color),
+              decoration: BoxDecoration(border: Border.all(), color: color),
               child: const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Center(
@@ -440,14 +449,12 @@ class rowItemheader extends StatelessWidget {
             child: Container(
               width: 70,
               constraints: const BoxConstraints.expand(),
-              decoration: BoxDecoration(
-                  border: Border.all(),
-                  color: color),
+              decoration: BoxDecoration(border: Border.all(), color: color),
               child: const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Center(
                   child: Text(
-                   "رقم العربه",
+                    "رقم العربه",
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                   ),
                 ),
@@ -458,8 +465,7 @@ class rowItemheader extends StatelessWidget {
             child: Container(
               width: 100,
               constraints: const BoxConstraints.expand(),
-              decoration:
-                  BoxDecoration(border: Border.all(), color: color),
+              decoration: BoxDecoration(border: Border.all(), color: color),
               child: const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Center(
@@ -475,9 +481,7 @@ class rowItemheader extends StatelessWidget {
             child: Container(
               width: 150,
               constraints: const BoxConstraints.expand(),
-              decoration: BoxDecoration(
-                  border: Border.all(),
-                  color: color),
+              decoration: BoxDecoration(border: Border.all(), color: color),
               child: const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Center(

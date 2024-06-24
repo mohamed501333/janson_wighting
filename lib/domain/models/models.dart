@@ -21,6 +21,8 @@ class WieghtTecketMOdel {
   List<int> secondShotpiccam1;
   List<int> secondShotpiccam2;
   List<ActionModel> actions;
+  bool synced;
+  int lastupdated;
   WieghtTecketMOdel({
     required this.wightTecket_ID,
     required this.wightTecket_serial,
@@ -39,8 +41,9 @@ class WieghtTecketMOdel {
     required this.secondShotpiccam1,
     required this.secondShotpiccam2,
     required this.actions,
+    required this.synced,
+    required this.lastupdated,
   });
-
 
   WieghtTecketMOdel copyWith({
     int? wightTecket_ID,
@@ -60,12 +63,15 @@ class WieghtTecketMOdel {
     List<int>? secondShotpiccam1,
     List<int>? secondShotpiccam2,
     List<ActionModel>? actions,
+    bool? synced,
+    int? lastupdated,
   }) {
     return WieghtTecketMOdel(
       wightTecket_ID: wightTecket_ID ?? this.wightTecket_ID,
       wightTecket_serial: wightTecket_serial ?? this.wightTecket_serial,
       stockRequsition_ID: stockRequsition_ID ?? this.stockRequsition_ID,
-      stockRequsition_serial: stockRequsition_serial ?? this.stockRequsition_serial,
+      stockRequsition_serial:
+          stockRequsition_serial ?? this.stockRequsition_serial,
       carNum: carNum ?? this.carNum,
       customerName: customerName ?? this.customerName,
       driverName: driverName ?? this.driverName,
@@ -79,6 +85,8 @@ class WieghtTecketMOdel {
       secondShotpiccam1: secondShotpiccam1 ?? this.secondShotpiccam1,
       secondShotpiccam2: secondShotpiccam2 ?? this.secondShotpiccam2,
       actions: actions ?? this.actions,
+      synced: synced ?? this.synced,
+      lastupdated: lastupdated ?? this.lastupdated,
     );
   }
 
@@ -101,6 +109,8 @@ class WieghtTecketMOdel {
       'secondShotpiccam1': secondShotpiccam1,
       'secondShotpiccam2': secondShotpiccam2,
       'actions': actions.map((x) => x.toMap()).toList(),
+      'synced': synced,
+      'lastupdated': lastupdated,
     };
   }
 
@@ -118,66 +128,80 @@ class WieghtTecketMOdel {
       firstShot: map['firstShot'] as double,
       secondShot: map['secondShot'] as double,
       totalWeight: map['totalWeight'] as double,
-      firstShotpiccam1: List<int>.from((map['firstShotpiccam1'] as List<dynamic>)),
-      firstShotpiccam2: List<int>.from((map['firstShotpiccam2'] as List<dynamic>)),
-      secondShotpiccam1: List<int>.from((map['secondShotpiccam1'] as List<dynamic>)),
-      secondShotpiccam2: List<int>.from((map['secondShotpiccam2'] as List<dynamic>)),
-      actions: List<ActionModel>.from((map['actions'] as List<dynamic>).map<ActionModel>((x) => ActionModel.fromMap(x as Map<String,dynamic>),),),
+      firstShotpiccam1:
+          List<int>.from((map['firstShotpiccam1'] as List<dynamic>)),
+      firstShotpiccam2:
+          List<int>.from((map['firstShotpiccam2'] as List<dynamic>)),
+      secondShotpiccam1:
+          List<int>.from((map['secondShotpiccam1'] as List<dynamic>)),
+      secondShotpiccam2:
+          List<int>.from((map['secondShotpiccam2'] as List<dynamic>)),
+      actions: List<ActionModel>.from(
+        (map['actions'] as List<dynamic>).map<ActionModel>(
+          (x) => ActionModel.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
+      synced: map['synced'] as bool,
+      lastupdated: map['lastupdated'] as int,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory WieghtTecketMOdel.fromJson(String source) => WieghtTecketMOdel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory WieghtTecketMOdel.fromJson(String source) =>
+      WieghtTecketMOdel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'WieghtTecketMOdel(wightTecket_ID: $wightTecket_ID, wightTecket_serial: $wightTecket_serial, stockRequsition_ID: $stockRequsition_ID, stockRequsition_serial: $stockRequsition_serial, carNum: $carNum, customerName: $customerName, driverName: $driverName, prodcutName: $prodcutName, notes: $notes, firstShot: $firstShot, secondShot: $secondShot, totalWeight: $totalWeight, firstShotpiccam1: $firstShotpiccam1, firstShotpiccam2: $firstShotpiccam2, secondShotpiccam1: $secondShotpiccam1, secondShotpiccam2: $secondShotpiccam2, actions: $actions)';
+    return 'WieghtTecketMOdel(wightTecket_ID: $wightTecket_ID, wightTecket_serial: $wightTecket_serial, stockRequsition_ID: $stockRequsition_ID, stockRequsition_serial: $stockRequsition_serial, carNum: $carNum, customerName: $customerName, driverName: $driverName, prodcutName: $prodcutName, notes: $notes, firstShot: $firstShot, secondShot: $secondShot, totalWeight: $totalWeight, firstShotpiccam1: $firstShotpiccam1, firstShotpiccam2: $firstShotpiccam2, secondShotpiccam1: $secondShotpiccam1, secondShotpiccam2: $secondShotpiccam2, actions: $actions, synced: $synced, lastupdated: $lastupdated)';
   }
 
   @override
   bool operator ==(covariant WieghtTecketMOdel other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.wightTecket_ID == wightTecket_ID &&
-      other.wightTecket_serial == wightTecket_serial &&
-      other.stockRequsition_ID == stockRequsition_ID &&
-      other.stockRequsition_serial == stockRequsition_serial &&
-      other.carNum == carNum &&
-      other.customerName == customerName &&
-      other.driverName == driverName &&
-      other.prodcutName == prodcutName &&
-      other.notes == notes &&
-      other.firstShot == firstShot &&
-      other.secondShot == secondShot &&
-      other.totalWeight == totalWeight &&
-      listEquals(other.firstShotpiccam1, firstShotpiccam1) &&
-      listEquals(other.firstShotpiccam2, firstShotpiccam2) &&
-      listEquals(other.secondShotpiccam1, secondShotpiccam1) &&
-      listEquals(other.secondShotpiccam2, secondShotpiccam2) &&
-      listEquals(other.actions, actions);
+
+    return other.wightTecket_ID == wightTecket_ID &&
+        other.wightTecket_serial == wightTecket_serial &&
+        other.stockRequsition_ID == stockRequsition_ID &&
+        other.stockRequsition_serial == stockRequsition_serial &&
+        other.carNum == carNum &&
+        other.customerName == customerName &&
+        other.driverName == driverName &&
+        other.prodcutName == prodcutName &&
+        other.notes == notes &&
+        other.firstShot == firstShot &&
+        other.secondShot == secondShot &&
+        other.totalWeight == totalWeight &&
+        listEquals(other.firstShotpiccam1, firstShotpiccam1) &&
+        listEquals(other.firstShotpiccam2, firstShotpiccam2) &&
+        listEquals(other.secondShotpiccam1, secondShotpiccam1) &&
+        listEquals(other.secondShotpiccam2, secondShotpiccam2) &&
+        listEquals(other.actions, actions) &&
+        other.synced == synced &&
+        other.lastupdated == lastupdated;
   }
 
   @override
   int get hashCode {
     return wightTecket_ID.hashCode ^
-      wightTecket_serial.hashCode ^
-      stockRequsition_ID.hashCode ^
-      stockRequsition_serial.hashCode ^
-      carNum.hashCode ^
-      customerName.hashCode ^
-      driverName.hashCode ^
-      prodcutName.hashCode ^
-      notes.hashCode ^
-      firstShot.hashCode ^
-      secondShot.hashCode ^
-      totalWeight.hashCode ^
-      firstShotpiccam1.hashCode ^
-      firstShotpiccam2.hashCode ^
-      secondShotpiccam1.hashCode ^
-      secondShotpiccam2.hashCode ^
-      actions.hashCode;
+        wightTecket_serial.hashCode ^
+        stockRequsition_ID.hashCode ^
+        stockRequsition_serial.hashCode ^
+        carNum.hashCode ^
+        customerName.hashCode ^
+        driverName.hashCode ^
+        prodcutName.hashCode ^
+        notes.hashCode ^
+        firstShot.hashCode ^
+        secondShot.hashCode ^
+        totalWeight.hashCode ^
+        firstShotpiccam1.hashCode ^
+        firstShotpiccam2.hashCode ^
+        secondShotpiccam1.hashCode ^
+        secondShotpiccam2.hashCode ^
+        actions.hashCode ^
+        synced.hashCode ^
+        lastupdated.hashCode;
   }
 }
 
